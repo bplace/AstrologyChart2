@@ -67,7 +67,7 @@ class TransitChart extends Chart {
   setData(data) {
     let status = this.validateData(data)
     if (!status.isValid) {
-      throw new Error(status.messages)
+      throw new Error(status.message)
     }
 
     this.#data = data
@@ -110,9 +110,9 @@ class TransitChart extends Chart {
       return
     }
 
-    fromPoints = fromPoints ?? this.#data.points
-    toPoints = toPoints ?? [...this.#radix.getData().points, {name:"AS", angle:0}, {name:"IC", angle:this.#radix.getData().cusps.at(3)}, {name:"DS", angle:180}, {name:"MC", angle:this.#radix.getData().cusps.at(9)}]
-    aspects = aspects ?? DefaultSettings.DEFAULT_ASPECTS
+    fromPoints = fromPoints ?? [...this.#data.points.filter(x => "aspect" in x ? x.aspect : true), ...this.#data.cusps.filter(x => x.aspect)]
+    toPoints = toPoints ?? [...this.#radix.getData().points.filter(x => "aspect" in x ? x.aspect : true), ...this.#radix.getData().cusps.filter(x => x.aspect)]
+    aspects = aspects ?? this.#settings.DEFAULT_ASPECTS ?? DefaultSettings.DEFAULT_ASPECTS
 
     return AspectUtils.getAspects(fromPoints, toPoints, aspects)
   }
@@ -132,6 +132,10 @@ class TransitChart extends Chart {
 
     const aspectsList = this.getAspects(fromPoints, toPoints, aspects)
       .filter( aspect =>  aspect.aspect.name != 'Conjunction')
+
+    const circle = SVGUtils.SVGCircle(this.#centerX, this.#centerY, this.#radix.getCenterCircleRadius())
+    circle.setAttribute('fill', this.#settings.ASPECTS_BACKGROUND_COLOR)
+    aspectsWrapper.appendChild(circle)
     
     aspectsWrapper.appendChild( AspectUtils.drawAspects(this.#radix.getCenterCircleRadius(), this.#radix.getAscendantShift(), this.#settings, aspectsList))
 
@@ -152,6 +156,7 @@ class TransitChart extends Chart {
 
     this.#drawRuler()
     this.#drawCusps(data)
+    this.#settings.CHART_DRAW_MAIN_AXIS && this.#drawMainAxisDescription(data)
     this.#drawPoints(data)
     this.#drawBorders()
     this.#settings.DRAW_ASPECTS && this.drawAspects()
@@ -212,7 +217,7 @@ class TransitChart extends Chart {
       symbol.setAttribute("text-anchor", "middle") // start, middle, end
       symbol.setAttribute("dominant-baseline", "middle")
       symbol.setAttribute("font-size", this.#settings.TRANSIT_POINTS_FONT_SIZE)
-      symbol.setAttribute("fill", this.#settings.CHART_POINTS_COLOR)
+      symbol.setAttribute("fill", this.#settings.TRANSIT_PLANET_COLORS[pointData.name] ?? this.#settings.PLANET_COLORS[pointData.name] ?? this.#settings.CHART_POINTS_COLOR)
       wrapper.appendChild(symbol);
 
       // pointer
@@ -244,7 +249,7 @@ class TransitChart extends Chart {
     const textRadius = this.#getCenterCircleRadius() + ((this.#getRullerCircleRadius() - this.#getCenterCircleRadius()) / 6)
 
     for (let i = 0; i < cusps.length; i++) {
-      const isLineInCollisionWithPoint = Utils.isCollision(cusps[i].angle, pointsPositions, this.#settings.POINT_COLLISION_RADIUS / 2)
+      const isLineInCollisionWithPoint = !this.#settings.CHART_ALLOW_HOUSE_OVERLAP && Utils.isCollision(cusps[i].angle, pointsPositions, this.#settings.POINT_COLLISION_RADIUS / 2)
 
       const startPos = Utils.positionOnCircle(this.#centerX, this.#centerY, this.#getCenterCircleRadius(), Utils.degreeToRadian(cusps[i].angle, this.#radix.getAscendantShift()))
       const endPos = Utils.positionOnCircle(this.#centerX, this.#centerY, isLineInCollisionWithPoint ? this.#getCenterCircleRadius() + ((this.#getRullerCircleRadius() - this.#getCenterCircleRadius()) / 6) : this.#getRullerCircleRadius(), Utils.degreeToRadian(cusps[i].angle, this.#radix.getAscendantShift()))
@@ -261,11 +266,102 @@ class TransitChart extends Chart {
 
       const textPos = Utils.positionOnCircle(this.#centerX, this.#centerY, textRadius, Utils.degreeToRadian(textAngle, this.#radix.getAscendantShift()))
       const text = SVGUtils.SVGText(textPos.x, textPos.y, `${i+1}`)
+      text.setAttribute("font-family", this.#settings.CHART_FONT_FAMILY)
       text.setAttribute("text-anchor", "middle") // start, middle, end
       text.setAttribute("dominant-baseline", "middle")
-      text.setAttribute("font-size", this.#settings.RADIX_POINTS_FONT_SIZE / 2)
-      text.setAttribute("fill", this.#settings.CHART_TEXT_COLOR)
+      text.setAttribute("font-size", this.#settings.RADIX_HOUSE_FONT_SIZE)
+      text.setAttribute("fill", this.#settings.TRANSIT_HOUSE_NUMBER_COLOR || this.#settings.CHART_HOUSE_NUMBER_COLOR)
       wrapper.appendChild(text)
+
+      if(this.#settings.DRAW_HOUSE_DEGREE) {
+        if(Array.isArray(this.#settings.HOUSE_DEGREE_FILTER) && !this.#settings.HOUSE_DEGREE_FILTER.includes(i+1)) {
+          continue;
+        }
+        const degreePos = Utils.positionOnCircle(this.#centerX, this.#centerY, this.#getRullerCircleRadius() - (this.getRadius() - this.#getRullerCircleRadius()), Utils.degreeToRadian(startCusp - 1.75, this.#radix.getAscendantShift()))
+        const degree = SVGUtils.SVGText(degreePos.x, degreePos.y, Math.floor(cusps[i].angle % 30) + "º")
+        degree.setAttribute("font-family", "Arial")
+        degree.setAttribute("text-anchor", "middle") // start, middle, end
+        degree.setAttribute("dominant-baseline", "middle")
+        degree.setAttribute("font-size", this.#settings.HOUSE_DEGREE_SIZE || this.#settings.POINT_PROPERTIES_ANGLE_SIZE / 2)
+        degree.setAttribute("fill", this.#settings.HOUSE_DEGREE_COLOR || this.#settings.TRANSIT_HOUSE_NUMBER_COLOR || this.#settings.CHART_HOUSE_NUMBER_COLOR)
+        wrapper.appendChild(degree)
+      }
+    }
+
+    this.#root.appendChild(wrapper)
+  }
+
+  /*
+   * Draw main axis descrition
+   * @param {Array} axisList
+   */
+  #drawMainAxisDescription(data) {
+    const AXIS_LENGTH = 10
+    const cusps = data.cusps
+
+    const axisList = [{
+        name: SVGUtils.SYMBOL_AS,
+        angle: cusps[0].angle
+      },
+      {
+        name: SVGUtils.SYMBOL_IC,
+        angle: cusps[3].angle
+      },
+      {
+        name: SVGUtils.SYMBOL_DS,
+        angle: cusps[6].angle
+      },
+      {
+        name: SVGUtils.SYMBOL_MC,
+        angle: cusps[9].angle
+      },
+    ]
+
+    const wrapper = SVGUtils.SVGGroup()
+
+    const rad1 = this.getRadius();
+    const rad2 = this.getRadius() + AXIS_LENGTH;
+
+    for (const axis of axisList) {
+      let startPoint = Utils.positionOnCircle(this.#centerX, this.#centerY, rad1, Utils.degreeToRadian(axis.angle, this.#radix.getAscendantShift()))
+      let endPoint = Utils.positionOnCircle(this.#centerX, this.#centerY, rad2, Utils.degreeToRadian(axis.angle, this.#radix.getAscendantShift()))
+      let line = SVGUtils.SVGLine(startPoint.x, startPoint.y, endPoint.x, endPoint.y);
+      line.setAttribute("stroke", this.#settings.CHART_MAIN_AXIS_COLOR);
+      line.setAttribute("stroke-width", this.#settings.CHART_MAIN_STROKE);
+      wrapper.appendChild(line);
+
+      let textPoint = Utils.positionOnCircle(this.#centerX, this.#centerY, rad2 + AXIS_LENGTH + 2, Utils.degreeToRadian(axis.angle, this.#radix.getAscendantShift()))
+      let symbol;
+      switch (axis.name) {
+        case "As":
+          symbol = SVGUtils.SVGSymbol(axis.name, textPoint.x, textPoint.y)
+          symbol.setAttribute("text-anchor", "middle")
+          symbol.setAttribute("dominant-baseline", "middle")
+          break;
+        case "Ds":
+          symbol = SVGUtils.SVGSymbol(axis.name, textPoint.x, textPoint.y)
+          symbol.setAttribute("text-anchor", "middle")
+          symbol.setAttribute("dominant-baseline", "middle")
+          break;
+        case "Mc":
+          symbol = SVGUtils.SVGSymbol(axis.name, textPoint.x, textPoint.y)
+          symbol.setAttribute("text-anchor", "middle")
+          symbol.setAttribute("dominant-baseline", "middle")
+          break;
+        case "Ic":
+          symbol = SVGUtils.SVGSymbol(axis.name, textPoint.x, textPoint.y)
+          symbol.setAttribute("text-anchor", "middle")
+          symbol.setAttribute("dominant-baseline", "middle")
+          break;
+        default:
+          console.error(axis.name)
+          throw new Error("Unknown axis name.")
+      }
+      symbol.setAttribute("font-family", this.#settings.CHART_FONT_FAMILY);
+      symbol.setAttribute("font-size", this.#settings.RADIX_AXIS_FONT_SIZE);
+      symbol.setAttribute("fill", this.#settings.CHART_MAIN_AXIS_COLOR);
+
+      wrapper.appendChild(symbol);
     }
 
     this.#root.appendChild(wrapper)

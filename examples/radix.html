@@ -1,28 +1,191 @@
 <!DOCTYPE html>
 <html>
-  <head>
-    <meta charset="utf-8" />
+<head>
+    <meta charset="utf-8"/>
     <title>Radix</title>
     <style>
-      #paper{
-        background-color:#eee;
-        width:800px;
-        height:800px;
-      }
+        #paper {
+            background-color: #eee;
+            width: 800px;
+            height: 800px;
+        }
     </style>
-  </head>
-  <body>
-    <div id="paper"></div>
+</head>
+<body>
+<div id="paper"></div>
 
-    <script src="../dist/astrochart2.js"></script>
-    <script>
-      // fetch from server
-      let data = {
-      	"points":[{name:"Moon", angle:64}, {name:"Sun", angle:273}, {name:"Mercury", angle:194}, {name:"Venus", angle:158}, {name:"Mars", angle:304}, {name:"Jupiter", angle:229}, {name:"Saturn", angle:255, isRetrograde:true}, {name:"Uranus", angle:347}, {name:"Neptune", angle:21, isRetrograde:true}, {name:"Pluto", angle:233}, {name:"Lilith", angle:244}, {name:"Chiron", angle:339}, {name:"NNode", angle:285}],
-      	"cusps":[{angle:0}, {angle:30}, {angle:60}, {angle:90}, {angle:120}, {angle:150}, {angle:180}, {angle:210}, {angle:240}, {angle:270}, {angle:300}, {angle:330}]
-      }
+<script src="../dist/astrochart2.js"></script>
+<script>
+    // fetch from server
 
-      new astrology.Universe('paper').radix().setData( data )
-    </script>
-  </body>
+    let data = {
+        "points": [
+            {
+                name: "Moon",
+                angle: 64
+            },
+            {
+                name: "Sun",
+                angle: 273
+            },
+            {
+                name: "Mercury",
+                angle: 194
+            },
+            {
+                name: "Venus",
+                angle: 158
+            },
+            {
+                name: "Mars",
+                angle: 304
+            },
+            {
+                name: "Jupiter",
+                angle: 229
+            },
+            {
+                name: "Saturn",
+                angle: 255,
+                isRetrograde: true
+            },
+            {
+                name: "Uranus",
+                angle: 347
+            },
+            {
+                name: "Neptune",
+                angle: 21,
+                isRetrograde: true
+            },
+            {
+                name: "Pluto",
+                angle: 233
+            },
+            {
+                name: "Lilith",
+                angle: 244
+            },
+            {
+                name: "Chiron",
+                angle: 339
+            },
+            {
+                name: "NNode",
+                angle: 285
+            }
+        ],
+        "cusps": [
+            {
+                angle: 0
+            },
+            {
+                angle: 30
+            },
+            {
+                angle: 60
+            },
+            {
+                angle: 90
+            },
+            {
+                angle: 120
+            },
+            {
+                angle: 150
+            },
+            {
+                angle: 180
+            },
+            {
+                angle: 210
+            },
+            {
+                angle: 240
+            },
+            {
+                angle: 270
+            },
+            {
+                angle: 300
+            },
+            {
+                angle: 330
+            }
+        ]
+    }
+
+
+    data = {
+        "points": [{"name": "Sun", "angle": 56.6128}, {"name": "Moon", "angle": 264.3315}, {
+            "name": "Mercury",
+            "angle": 31.4074,
+            "isRetrograde": false
+        }, {"name": "Venus", "angle": 48.626, "isRetrograde": false}, {"name": "Mars", "angle": 228.6879, "isRetrograde": true}, {
+            "name": "Jupiter",
+            "angle": 282.482,
+            "isRetrograde": true
+        }, {"name": "Saturn", "angle": 222.0418, "isRetrograde": true}, {"name": "Uranus", "angle": 252.1981, "isRetrograde": true}, {
+            "name": "Neptune",
+            "angle": 270.9186,
+            "isRetrograde": true
+        }, {"name": "Pluto", "angle": 210.0307, "isRetrograde": true}, {"name": "Chiron", "angle": 63.0719, "isRetrograde": false}, {
+            "name": "NNode",
+            "angle": 67.2595
+        }, {"name": "SNode", "angle": 247.2595}, {"name": "Lilith", "angle": 347.5568}],
+        "cusps": [{"angle": 114.716}, {"angle": 131.9042}, {"angle": 153.0139}, {"angle": 181.1415}, {"angle": 218.9405}, {"angle": 260.3666}, {"angle": 294.716}, {"angle": 311.9042}, {"angle": 333.0139}, {"angle": 1.1415}, {"angle": 38.9405}, {"angle": 80.3666}]
+    }
+
+
+    let settings = {
+        RADIX_POINTS_FONT_SIZE: 28,
+        RADIX_SIGNS_FONT_SIZE: 28,
+        CHART_BACKGROUND_COLOR: '#FAFAFA', // Background au milieu
+        CHART_CIRCLE_COLOR: '#4b4b4b', // le stroke interieur / extérieur du cercle avec les signes
+        CHART_LINE_COLOR: "#7b7b7b", // Les lignes des maisons, qui indiquent les angles précis, les angles extérieurs.
+        CHART_TEXT_COLOR: '#7a7', // Les numéros des maisons
+        CHART_MAIN_AXIS_COLOR: '#9614d8', // Les 4 grands axes AC/MH/DS/IC et les textes AC/MH...
+        CHART_SIGNS_COLOR: '#FAFAFA', // Les symboles des signes
+        CHART_POINTS_COLOR: '#2c671d', // Les symboles des corps célestes et planètes
+        POINT_PROPERTIES_COLOR: '#0030aa', // Détails de chaque point (Angle, Dignité, Rétrograde)
+        POINT_COLLISION_RADIUS: 12, // Permet de séparer +/- les points (Angle, Dignité, Rétrograde)
+        POINT_PROPERTIES_FONT_SIZE: 18,
+        COLOR_ARIES: '#ebecef',
+        COLOR_TAURUS: '#ebecef',
+        COLOR_GEMINI: '#ebecef',
+        COLOR_CANCER: '#ebecef',
+        COLOR_LEO: '#ebecef',
+        COLOR_VIRGO: '#ebecef',
+        COLOR_LIBRA: '#ebecef',
+        COLOR_SCORPIO: '#ebecef',
+        COLOR_SAGITTARIUS: '#ebecef',
+        COLOR_CAPRICORN: '#ebecef',
+        COLOR_AQUARIUS: '#ebecef',
+        COLOR_PISCES: '#ebecef',
+        CHART_STROKE_WITH_COLOR: true,
+        // CHART_STROKE_ONLY: true,
+        SIGN_COLORS: {
+            0: "#FF4500",
+            1: "#8B4513",
+            2: "#5fc1e8",
+            3: "#27AE60",
+            4: "#FF4500",
+            5: "#8B4513",
+            6: "#5fc1e8",
+            7: "#27AE60",
+            8: "#FF4500",
+            9: "#8B4513",
+            10: "#5fc1e8",
+            11: "#27AE60",
+        },
+        CLASS_CELESTIAL: 'c-radix__celestial',
+        CLASS_SIGN: 'c-radix__celestial',
+        CLASS_SIGN_SEGMENT: 'c-radix__sign-segment',
+        CLASS_AXIS: 'c-radix__axis',
+    };
+
+
+    new astrology.Universe('paper', settings).radix().setData(data)
+</script>
+</body>
 </html>

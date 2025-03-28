@@ -4,7 +4,23 @@
 * @type {String}
 * @default #fff
 */
-export const CHART_BACKGROUND_COLOR = "#fff";
+export const CHART_BACKGROUND_COLOR = "none";
+
+/**
+* Planets background color
+* @constant
+* @type {String}
+* @default #fff
+*/
+export const PLANETS_BACKGROUND_COLOR = "#fff";
+
+/**
+* Aspects background color
+* @constant
+* @type {String}
+* @default #fff
+*/
+export const ASPECTS_BACKGROUND_COLOR = "#eee";
 
 /*
 * Default color of circles in charts
@@ -23,12 +39,20 @@ export const CHART_CIRCLE_COLOR = "#333";
 export const CHART_LINE_COLOR = "#666";
 
 /*
-* Default color of text in charts - cusps number
+* Default color of text in charts
 * @constant
 * @type {String}
 * @default #333
 */
 export const CHART_TEXT_COLOR = "#bbb";
+
+/*
+* Default color of cusps number
+* @constant
+* @type {String}
+* @default #333
+*/
+export const CHART_HOUSE_NUMBER_COLOR = "#333";
 
 /*
 * Default color of mqin axis - As, Ds, Mc, Ic
@@ -47,7 +71,7 @@ export const CHART_MAIN_AXIS_COLOR = "#000";
 export const CHART_SIGNS_COLOR = "#333";
 
 /*
-* Default color of signs in charts (arise symbol, taurus symbol, ...)
+* Default color of planets on the chart (Sun symbol, Moon symbol, ...)
 * @constant
 * @type {String}
 * @default #000
@@ -181,4 +205,27 @@ export const ASPECT_COLORS = {
   Semisextile:"#333",
   Quintile:"#333",
   Trioctile:"#333"
+}
+
+/**
+ * Override individual planet symbol colors by planet name
+ */
+export const PLANET_COLORS = {
+  //Sun: "#000",
+  //Moon: "#aaa",
+}
+
+/**
+ * override individual sign symbol colors by zodiac index
+ */
+export const SIGN_COLORS = {
+  //0: "#333"
+}
+
+/**
+ * Override individual planet symbol colors by planet name on transit charts
+ */
+export const TRANSIT_PLANET_COLORS = {
+  //Sun: "#000",
+  //Moon: "#aaa",
 }
