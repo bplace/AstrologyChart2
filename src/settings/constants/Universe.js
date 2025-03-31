@@ -41,6 +41,13 @@ export const CHART_STROKE = 1
 export const CHART_MAIN_STROKE = 2
 
 /**
+ * Line strength for minor aspects
+ *
+ * @type {number}
+ */
+export const CHART_STROKE_MINOR_ASPECT = 1
+
+/**
  * No fill, only stroke
  * @constant
  * @type {boolean}
@@ -112,3 +119,26 @@ export const CLASS_AXIS = '';
  * @type {string}
  */
 export const CLASS_CELESTIAL = '';
+
+/**
+ * Class for the aspect character
+ * @type {string}
+ */
+export const CLASS_SIGN_ASPECT = '';
+
+/**
+ * Class for aspect lines
+ * @type {string}
+ */
+export const CLASS_SIGN_ASPECT_LINE = '';
+
+/**
+ * Use planet color for the chart line next to a planet
+ * @type {boolean}
+ */
+export const PLANET_LINE_USE_PLANET_COLOR = false;
+
+/**
+ * Draw a ruler mark (tiny square) at planet position
+ */
+export const DRAW_RULER_MARK = true;

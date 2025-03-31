@@ -101,3 +101,9 @@ export const POINT_PROPERTIES_DIGNITY_OFFSET = 5
 * @default 2
 */
 export const POINT_COLLISION_RADIUS = 12
+
+/**
+ * Tweak the angle string, e.g. add the degree symbol: "${angle}°"
+ * @type {string}
+ */
+export const ANGLE_TEMPLATE = "${angle}"

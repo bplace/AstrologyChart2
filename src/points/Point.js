@@ -80,15 +80,13 @@ class Point {
 
         const symbol = SVGUtils.SVGSymbol(this.#name, xPos, yPos)
 
-        console.debug(this.#settings);
-
         if (this.#settings.CLASS_CELESTIAL) {
             symbol.setAttribute('class', this.#settings.CLASS_CELESTIAL + ' ' + this.#settings.CLASS_CELESTIAL + '--' + this.#name.toLowerCase());
         }
 
         wrapper.appendChild(symbol)
 
-        if (isProperties == false) {
+        if (isProperties === false) {
             return wrapper //======>
         }
 
@@ -96,9 +94,17 @@ class Point {
         const chartCenterY = this.#settings.CHART_VIEWBOX_HEIGHT / 2
         const angleFromSymbolToCenter = Utils.positionToAngle(xPos, yPos, chartCenterX, chartCenterY)
 
-        this.#settings.POINT_PROPERTIES_SHOW_ANGLE && angleInSign.call(this)
-        this.#settings.POINT_PROPERTIES_SHOW_RETROGRADE && this.#isRetrograde && retrograde.call(this)
-        this.#settings.POINT_PROPERTIES_SHOW_DIGNITY && this.getDignity() && dignities.call(this)
+        if (this.#settings.POINT_PROPERTIES_SHOW_ANGLE) {
+            angleInSign.call(this)
+        }
+
+        if (this.#settings.POINT_PROPERTIES_SHOW_RETROGRADE && this.#isRetrograde) {
+            retrograde.call(this)
+        }
+
+        if (this.#settings.POINT_PROPERTIES_SHOW_DIGNITY && this.getDignity()) {
+            dignities.call(this)
+        }
 
         return wrapper //======>
 
@@ -107,10 +113,16 @@ class Point {
          */
         function angleInSign() {
             const angleInSignPosition = Utils.positionOnCircle(xPos, yPos, this.#settings.POINT_PROPERTIES_ANGLE_OFFSET * this.#settings.POINT_COLLISION_RADIUS, Utils.degreeToRadian(-angleFromSymbolToCenter, angleShift))
+
             // It is possible to rotate the text, when uncomment a line bellow.
             //textWrapper.setAttribute("transform", `rotate(${angleFromSymbolToCenter},${textPosition.x},${textPosition.y})`)
 
-            const angleInSignText = SVGUtils.SVGText(angleInSignPosition.x, angleInSignPosition.y, this.getAngleInSign())
+            /*
+             * Allows change the angle string, e.g. add the degree symbol ° with the ^ character from Astronomicon
+             */
+            let anglePosition = Utils.fillTemplate(this.#settings.ANGLE_TEMPLATE, {angle: this.getAngleInSign()});
+
+            const angleInSignText = SVGUtils.SVGText(angleInSignPosition.x, angleInSignPosition.y, anglePosition)
             angleInSignText.setAttribute("font-family", this.#settings.CHART_FONT_FAMILY);
             angleInSignText.setAttribute("text-anchor", "middle") // start, middle, end
             angleInSignText.setAttribute("dominant-baseline", "middle")

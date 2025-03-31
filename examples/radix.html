@@ -5,10 +5,23 @@
     <title>Radix</title>
     <style>
         #paper {
-            background-color: #eee;
+            background-color: #FFF;
             width: 800px;
             height: 800px;
         }
+
+        /**
+        https://stackoverflow.com/questions/442164/how-to-get-an-outline-effect-on-text-in-svg
+         */
+
+        .c-radix__aspect {
+            paint-order: stroke;
+            stroke: #e4e5f1;
+            stroke-width: 1pt;
+            stroke-linecap: butt;
+            stroke-linejoin: miter;
+        }
+
     </style>
 </head>
 <body>
@@ -17,106 +30,7 @@
 <script src="../dist/astrochart2.js"></script>
 <script>
     // fetch from server
-
     let data = {
-        "points": [
-            {
-                name: "Moon",
-                angle: 64
-            },
-            {
-                name: "Sun",
-                angle: 273
-            },
-            {
-                name: "Mercury",
-                angle: 194
-            },
-            {
-                name: "Venus",
-                angle: 158
-            },
-            {
-                name: "Mars",
-                angle: 304
-            },
-            {
-                name: "Jupiter",
-                angle: 229
-            },
-            {
-                name: "Saturn",
-                angle: 255,
-                isRetrograde: true
-            },
-            {
-                name: "Uranus",
-                angle: 347
-            },
-            {
-                name: "Neptune",
-                angle: 21,
-                isRetrograde: true
-            },
-            {
-                name: "Pluto",
-                angle: 233
-            },
-            {
-                name: "Lilith",
-                angle: 244
-            },
-            {
-                name: "Chiron",
-                angle: 339
-            },
-            {
-                name: "NNode",
-                angle: 285
-            }
-        ],
-        "cusps": [
-            {
-                angle: 0
-            },
-            {
-                angle: 30
-            },
-            {
-                angle: 60
-            },
-            {
-                angle: 90
-            },
-            {
-                angle: 120
-            },
-            {
-                angle: 150
-            },
-            {
-                angle: 180
-            },
-            {
-                angle: 210
-            },
-            {
-                angle: 240
-            },
-            {
-                angle: 270
-            },
-            {
-                angle: 300
-            },
-            {
-                angle: 330
-            }
-        ]
-    }
-
-
-    data = {
         "points": [{"name": "Sun", "angle": 56.6128}, {"name": "Moon", "angle": 264.3315}, {
             "name": "Mercury",
             "angle": 31.4074,
@@ -139,17 +53,18 @@
 
     let settings = {
         RADIX_POINTS_FONT_SIZE: 28,
-        RADIX_SIGNS_FONT_SIZE: 28,
-        CHART_BACKGROUND_COLOR: '#FAFAFA', // Background au milieu
-        CHART_CIRCLE_COLOR: '#4b4b4b', // le stroke interieur / extérieur du cercle avec les signes
-        CHART_LINE_COLOR: "#7b7b7b", // Les lignes des maisons, qui indiquent les angles précis, les angles extérieurs.
-        CHART_TEXT_COLOR: '#7a7', // Les numéros des maisons
-        CHART_MAIN_AXIS_COLOR: '#9614d8', // Les 4 grands axes AC/MH/DS/IC et les textes AC/MH...
-        CHART_SIGNS_COLOR: '#FAFAFA', // Les symboles des signes
-        CHART_POINTS_COLOR: '#2c671d', // Les symboles des corps célestes et planètes
-        POINT_PROPERTIES_COLOR: '#0030aa', // Détails de chaque point (Angle, Dignité, Rétrograde)
-        POINT_COLLISION_RADIUS: 12, // Permet de séparer +/- les points (Angle, Dignité, Rétrograde)
+        RADIX_SIGNS_FONT_SIZE: 30,
+        CHART_BACKGROUND_COLOR: '#FAFAFA', // Background of the outer circle, where are AC/MH/DS/IC
+        CHART_CIRCLE_COLOR: '#4b4b4b', // the inner/outer stroke of the circle with the signs
+        CHART_LINE_COLOR: "#7b7b7b", // The lines of the houses, which indicate the precise angles, the exterior angles.
+        CHART_TEXT_COLOR: '#7a7', // House numbers
+        CHART_MAIN_AXIS_COLOR: '#4e4d63', // The 4 main AC/MH/DS/IC axes and the AC/MH texts...
+        CHART_SIGNS_COLOR: '#FAFAFA', // The symbols of the signs
+        CHART_POINTS_COLOR: '#535175', // Symbols of celestial bodies and planets
+        POINT_PROPERTIES_COLOR: '#0030aa', // Details of each point (Angle, Dignity, Retrograde)
+        POINT_COLLISION_RADIUS: 12, // Allows you to separate +/- points (Angle, Dignity, Retrograde)
         POINT_PROPERTIES_FONT_SIZE: 18,
+        ASPECTS_BACKGROUND_COLOR: '#e4e5f1', // Background of the inner circle, with the aspects
         COLOR_ARIES: '#ebecef',
         COLOR_TAURUS: '#ebecef',
         COLOR_GEMINI: '#ebecef',
@@ -182,10 +97,59 @@
         CLASS_SIGN: 'c-radix__celestial',
         CLASS_SIGN_SEGMENT: 'c-radix__sign-segment',
         CLASS_AXIS: 'c-radix__axis',
-    };
+        CLASS_SIGN_ASPECT: 'c-radix__aspect',
+        CLASS_SIGN_ASPECT_LINE: 'c-radix__aspect-line',
+        PLANET_COLORS: {
+            Sun: "#f1ce1f",
+            Moon: "#9c9e9e",
+            Mercury: "#773e28",
+            Venus: "#266c38",
+            Mars: "#d95959",
+            Jupiter: "#e6892b",
+            Saturn: "#9f9f9f",
+            Uranus: "#1c91f6",
+            Neptune: "#983dc5",
+            Pluto: "#272727",
+            NNode: "#2d689e",
+            SNode: "#2d689e",
+            Chiron: "#3c3c3c",
+            Lilith: "#313142",
+        },
+        ASPECT_COLORS : {
+            Conjunction:"#B824C8",
+            Opposition:"#6c19ba",
+            Square:"#af3020",
+            Trine:"#16985d",
+            Sextile:"#62ae11",
+            Quincunx:"#16985d",
+            Semisextile:"#62ae11",
+            Quintile:"#ea9b01",
+            Trioctile:"#af3020"
+        },
+        PLANET_LINE_USE_PLANET_COLOR: true,
+        CHART_STROKE: 2,
+        CHART_STROKE_MINOR_ASPECT: 1,
+        DRAW_RULER_MARK: false,
+        POINT_PROPERTIES_ANGLE_SIZE: 16,
+        ANGLE_TEMPLATE: "${angle}^",
+        POINT_PROPERTIES_ANGLE_COLOR : "#2a2a4e",
+        DEFAULT_ASPECTS : [
+            {name:"Conjunction", angle:0, orb:4, isMajor: true},
+            {name:"Opposition", angle:180, orb:4, isMajor: true},
+            {name:"Trine", angle:120, orb:2, isMajor: true},
+            {name:"Square", angle:90, orb:2, isMajor: true},
+            {name:"Sextile", angle:60, orb:2, isMajor: true},
 
+            {name:"Quincunx", angle:150, orb:1},
+            {name:"Semisextile", angle:30, orb:1},
+            {name:"Quintile", angle:72, orb:1},
+            {name:"Trioctile", angle:135, orb:1},
+            {name:"Semisquare", angle:45, orb:1},
+        ]
+    };
 
     new astrology.Universe('paper', settings).radix().setData(data)
 </script>
+
 </body>
 </html>

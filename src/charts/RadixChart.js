@@ -236,11 +236,11 @@ class RadixChart extends Chart {
         Utils.cleanUp(this.#root.getAttribute('id'), this.#beforeCleanUpHook)
         this.#drawBackground()
         this.#drawAstrologicalSigns()
-        this.#drawRuler()
         this.#drawPoints(data)
         this.#drawCusps(data)
-        this.#settings.CHART_DRAW_MAIN_AXIS && this.#drawMainAxisDescription(data)
+        this.#drawRuler()
         this.#drawBorders()
+        this.#settings.CHART_DRAW_MAIN_AXIS && this.#drawMainAxisDescription(data)
         this.#settings.DRAW_ASPECTS && this.drawAspects()
     }
 
@@ -369,6 +369,7 @@ class RadixChart extends Chart {
         const wrapper = SVGUtils.SVGGroup()
 
         const positions = Utils.calculatePositionWithoutOverlapping(points, this.#settings.POINT_COLLISION_RADIUS, this.getPointCircleRadius())
+
         for (const pointData of points) {
             const point = new Point(pointData, cusps, this.#settings)
             const pointPosition = Utils.positionOnCircle(this.#centerX, this.#centerX, this.getRullerCircleRadius() - ((this.getInnerCircleRadius() - this.getRullerCircleRadius()) / 4), Utils.degreeToRadian(point.getAngle(), this.getAscendantShift()))
@@ -376,10 +377,13 @@ class RadixChart extends Chart {
 
             // ruler mark
             const rulerLineEndPosition = Utils.positionOnCircle(this.#centerX, this.#centerX, this.getRullerCircleRadius(), Utils.degreeToRadian(point.getAngle(), this.getAscendantShift()))
-            const rulerLine = SVGUtils.SVGLine(pointPosition.x, pointPosition.y, rulerLineEndPosition.x, rulerLineEndPosition.y)
-            rulerLine.setAttribute("stroke", this.#settings.CHART_LINE_COLOR);
-            rulerLine.setAttribute("stroke-width", this.#settings.CHART_STROKE);
-            wrapper.appendChild(rulerLine);
+
+            if (this.#settings.DRAW_RULER_MARK) {
+                const rulerLine = SVGUtils.SVGLine(pointPosition.x, pointPosition.y, rulerLineEndPosition.x, rulerLineEndPosition.y)
+                rulerLine.setAttribute("stroke", this.#settings.CHART_LINE_COLOR);
+                rulerLine.setAttribute("stroke-width", this.#settings.CHART_STROKE);
+                wrapper.appendChild(rulerLine);
+            }
 
             // symbol
             const symbol = point.getSymbol(symbolPosition.x, symbolPosition.y, Utils.DEG_0, this.#settings.POINT_PROPERTIES_SHOW)
@@ -393,9 +397,23 @@ class RadixChart extends Chart {
             // pointer
             //if (positions[point.getName()] != pointData.position) {
             const pointerLineEndPosition = Utils.positionOnCircle(this.#centerX, this.#centerX, this.getPointCircleRadius(), Utils.degreeToRadian(positions[point.getName()], this.getAscendantShift()))
-            const pointerLine = SVGUtils.SVGLine(pointPosition.x, pointPosition.y, (pointPosition.x + pointerLineEndPosition.x) / 2, (pointPosition.y + pointerLineEndPosition.y) / 2)
-            pointerLine.setAttribute("stroke", this.#settings.CHART_LINE_COLOR);
+
+            let pointerLine;
+            if (this.#settings.DRAW_RULER_MARK) {
+                pointerLine = SVGUtils.SVGLine(pointPosition.x, pointPosition.y, (pointPosition.x + pointerLineEndPosition.x) / 2, (pointPosition.y + pointerLineEndPosition.y) / 2)
+            } else {
+                pointerLine = SVGUtils.SVGLine(rulerLineEndPosition.x, rulerLineEndPosition.y, (pointPosition.x + pointerLineEndPosition.x) / 2, (pointPosition.y + pointerLineEndPosition.y) / 2)
+            }
+
+
+            if (this.#settings.PLANET_LINE_USE_PLANET_COLOR) {
+                pointerLine.setAttribute("stroke", this.#settings.PLANET_COLORS[pointData.name] ?? this.#settings.CHART_LINE_COLOR);
+            } else {
+                pointerLine.setAttribute("stroke", this.#settings.CHART_LINE_COLOR);
+            }
+
             pointerLine.setAttribute("stroke-width", this.#settings.CHART_STROKE / 2);
+
             wrapper.appendChild(pointerLine);
         }
 
