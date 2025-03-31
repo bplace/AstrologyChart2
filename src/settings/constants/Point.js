@@ -14,6 +14,12 @@ export const POINT_PROPERTIES_SHOW = true
 */
 export const POINT_PROPERTIES_SHOW_ANGLE = true
 
+/**
+ * Point sign
+ * @type {boolean}
+ */
+export const POINT_PROPERTIES_SHOW_SIGN = false
+
 /*
 * Point dignity symbol
 * @constant
@@ -78,13 +84,15 @@ export const POINT_PROPERTIES_DIGNITY_SIZE = 12
 */
 export const POINT_PROPERTIES_ANGLE_OFFSET = 2
 
+export const POINT_PROPERTIES_SIGN_OFFSET = 3.5
+
 /*
 * Retrograde symbol offset multiplier
 * @constant
 * @type {Number}
 * @default 6
 */
-export const POINT_PROPERTIES_RETROGRADE_OFFSET = 3.5
+export const POINT_PROPERTIES_RETROGRADE_OFFSET = 5
 
 /*
 * Dignity symbol offset multiplier
@@ -92,14 +100,14 @@ export const POINT_PROPERTIES_RETROGRADE_OFFSET = 3.5
 * @type {Number}
 * @default 6
 */
-export const POINT_PROPERTIES_DIGNITY_OFFSET = 5
+export const POINT_PROPERTIES_DIGNITY_OFFSET = 6
 
 /**
-* A point collision radius
-* @constant
-* @type {Number}
-* @default 2
-*/
+ * A point collision radius
+ * @constant
+ * @type {Number}
+ * @default 2
+ */
 export const POINT_COLLISION_RADIUS = 12
 
 /**
@@ -107,3 +115,19 @@ export const POINT_COLLISION_RADIUS = 12
  * @type {string}
  */
 export const ANGLE_TEMPLATE = "${angle}"
+
+
+/**
+ * Classes for points
+ * ====================================
+ */
+/**
+ * Class for Celestial Bodies (Planet / Asteriod)
+ * and Celestial Points (northnode, southnode, lilith)
+ * @type {string}
+ */
+export const CLASS_CELESTIAL = '';
+export const CLASS_POINT_ANGLE = '';
+export const CLASS_POINT_SIGN = '';
+export const CLASS_POINT_RETROGRADE = '';
+export const CLASS_POINT_DIGNITY = '';

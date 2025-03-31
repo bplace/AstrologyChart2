@@ -31,22 +31,36 @@
 <script>
     // fetch from server
     let data = {
-        "points": [{"name": "Sun", "angle": 56.6128}, {"name": "Moon", "angle": 264.3315}, {
+        "points": [{"name": "Sun", "angle": 56.6128, "sign": "Taurus"}, {"name": "Moon", "angle": 264.3315, "sign": "Sagittarius"}, {
             "name": "Mercury",
             "angle": 31.4074,
-            "isRetrograde": false
-        }, {"name": "Venus", "angle": 48.626, "isRetrograde": false}, {"name": "Mars", "angle": 228.6879, "isRetrograde": true}, {
-            "name": "Jupiter",
-            "angle": 282.482,
-            "isRetrograde": true
-        }, {"name": "Saturn", "angle": 222.0418, "isRetrograde": true}, {"name": "Uranus", "angle": 252.1981, "isRetrograde": true}, {
+            "isRetrograde": false,
+            "sign": "Taurus"
+        }, {"name": "Venus", "angle": 48.626, "isRetrograde": false, "sign": "Taurus"}, {
+            "name": "Mars",
+            "angle": 228.6879,
+            "isRetrograde": true,
+            "sign": "Scorpio"
+        }, {"name": "Jupiter", "angle": 282.482, "isRetrograde": true, "sign": "Capricorn"}, {
+            "name": "Saturn",
+            "angle": 222.0418,
+            "isRetrograde": true,
+            "sign": "Scorpio"
+        }, {"name": "Uranus", "angle": 252.1981, "isRetrograde": true, "sign": "Sagittarius"}, {
             "name": "Neptune",
             "angle": 270.9186,
-            "isRetrograde": true
-        }, {"name": "Pluto", "angle": 210.0307, "isRetrograde": true}, {"name": "Chiron", "angle": 63.0719, "isRetrograde": false}, {
-            "name": "NNode",
-            "angle": 67.2595
-        }, {"name": "SNode", "angle": 247.2595}, {"name": "Lilith", "angle": 347.5568}],
+            "isRetrograde": true,
+            "sign": "Capricorn"
+        }, {"name": "Pluto", "angle": 210.0307, "isRetrograde": true, "sign": "Scorpio"}, {
+            "name": "Chiron",
+            "angle": 63.0719,
+            "isRetrograde": false,
+            "sign": "Gemini"
+        }, {"name": "NNode", "angle": 67.2595, "sign": "Gemini"}, {"name": "SNode", "angle": 247.2595, "sign": "Sagittarius"}, {
+            "name": "Lilith",
+            "angle": 347.5568,
+            "sign": "Pisces"
+        }],
         "cusps": [{"angle": 114.716}, {"angle": 131.9042}, {"angle": 153.0139}, {"angle": 181.1415}, {"angle": 218.9405}, {"angle": 260.3666}, {"angle": 294.716}, {"angle": 311.9042}, {"angle": 333.0139}, {"angle": 1.1415}, {"angle": 38.9405}, {"angle": 80.3666}]
     }
 
@@ -64,6 +78,7 @@
         POINT_PROPERTIES_COLOR: '#0030aa', // Details of each point (Angle, Dignity, Retrograde)
         POINT_COLLISION_RADIUS: 12, // Allows you to separate +/- points (Angle, Dignity, Retrograde)
         POINT_PROPERTIES_FONT_SIZE: 18,
+        POINT_PROPERTIES_SHOW_SIGN: true,
         ASPECTS_BACKGROUND_COLOR: '#e4e5f1', // Background of the inner circle, with the aspects
         COLOR_ARIES: '#ebecef',
         COLOR_TAURUS: '#ebecef',
@@ -94,6 +109,10 @@
             11: "#27AE60",
         },
         CLASS_CELESTIAL: 'c-radix__celestial',
+        CLASS_POINT_ANGLE: 'c-radix__point-angle',
+        CLASS_POINT_SIGN: 'c-radix__point-sign',
+        CLASS_POINT_RETROGRADE: 'c-radix__point-retrograde',
+        CLASS_POINT_DIGNITY: 'c-radix__point-dignity',
         CLASS_SIGN: 'c-radix__celestial',
         CLASS_SIGN_SEGMENT: 'c-radix__sign-segment',
         CLASS_AXIS: 'c-radix__axis',
@@ -115,16 +134,16 @@
             Chiron: "#3c3c3c",
             Lilith: "#313142",
         },
-        ASPECT_COLORS : {
-            Conjunction:"#B824C8",
-            Opposition:"#6c19ba",
-            Square:"#af3020",
-            Trine:"#16985d",
-            Sextile:"#62ae11",
-            Quincunx:"#16985d",
-            Semisextile:"#62ae11",
-            Quintile:"#ea9b01",
-            Trioctile:"#af3020"
+        ASPECT_COLORS: {
+            Conjunction: "#B824C8",
+            Opposition: "#6c19ba",
+            Square: "#af3020",
+            Trine: "#16985d",
+            Sextile: "#62ae11",
+            Quincunx: "#16985d",
+            Semisextile: "#62ae11",
+            Quintile: "#ea9b01",
+            Trioctile: "#af3020"
         },
         PLANET_LINE_USE_PLANET_COLOR: true,
         CHART_STROKE: 2,
@@ -132,19 +151,21 @@
         DRAW_RULER_MARK: false,
         POINT_PROPERTIES_ANGLE_SIZE: 16,
         ANGLE_TEMPLATE: "${angle}^",
-        POINT_PROPERTIES_ANGLE_COLOR : "#2a2a4e",
-        DEFAULT_ASPECTS : [
-            {name:"Conjunction", angle:0, orb:4, isMajor: true},
-            {name:"Opposition", angle:180, orb:4, isMajor: true},
-            {name:"Trine", angle:120, orb:2, isMajor: true},
-            {name:"Square", angle:90, orb:2, isMajor: true},
-            {name:"Sextile", angle:60, orb:2, isMajor: true},
+        POINT_PROPERTIES_ANGLE_COLOR: "#2a2a4e",
+        POINT_PROPERTIES_RETROGRADE_COLOR: "#999",
+        POINT_PROPERTIES_DIGNITY_COLOR: "#999",
+        DEFAULT_ASPECTS: [
+            {name: "Conjunction", angle: 0, orb: 4, isMajor: true},
+            {name: "Opposition", angle: 180, orb: 4, isMajor: true},
+            {name: "Trine", angle: 120, orb: 2, isMajor: true},
+            {name: "Square", angle: 90, orb: 2, isMajor: true},
+            {name: "Sextile", angle: 60, orb: 2, isMajor: true},
 
-            {name:"Quincunx", angle:150, orb:1},
-            {name:"Semisextile", angle:30, orb:1},
-            {name:"Quintile", angle:72, orb:1},
-            {name:"Trioctile", angle:135, orb:1},
-            {name:"Semisquare", angle:45, orb:1},
+            {name: "Quincunx", angle: 150, orb: 1},
+            {name: "Semisextile", angle: 30, orb: 1},
+            {name: "Quintile", angle: 72, orb: 1},
+            {name: "Trioctile", angle: 135, orb: 1},
+            {name: "Semisquare", angle: 45, orb: 1},
         ]
     };
 

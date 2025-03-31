@@ -114,13 +114,6 @@ export const CLASS_SIGN = '';
 export const CLASS_AXIS = '';
 
 /**
- * Class for Celestial Bodies (Planet / Asteriod)
- * and Celestial Points (northnode, southnode, lilith)
- * @type {string}
- */
-export const CLASS_CELESTIAL = '';
-
-/**
  * Class for the aspect character
  * @type {string}
  */

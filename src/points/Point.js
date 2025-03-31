@@ -10,6 +10,7 @@ class Point {
 
     #name
     #angle
+    #sign
     #isRetrograde
     #cusps
     #settings
@@ -23,6 +24,7 @@ class Point {
     constructor(pointData, cusps, settings) {
         this.#name = pointData.name ?? "Unknown"
         this.#angle = pointData.angle ?? 0
+        this.#sign = pointData.sign ?? null
         this.#isRetrograde = pointData.isRetrograde ?? false
 
         if (! Array.isArray(cusps) || cusps.length != 12) {
@@ -66,6 +68,15 @@ class Point {
     }
 
     /**
+     * Get sign
+     *
+     * @return {String}
+     */
+    getSign() {
+        return this.#sign
+    }
+
+    /**
      * Get symbol
      *
      * @param {Number} xPos
@@ -98,6 +109,10 @@ class Point {
             angleInSign.call(this)
         }
 
+        if (this.#settings.POINT_PROPERTIES_SHOW_SIGN && this.#sign !== null) {
+            showSign.call(this)
+        }
+
         if (this.#settings.POINT_PROPERTIES_SHOW_RETROGRADE && this.#isRetrograde) {
             retrograde.call(this)
         }
@@ -120,7 +135,8 @@ class Point {
             /*
              * Allows change the angle string, e.g. add the degree symbol ° with the ^ character from Astronomicon
              */
-            let anglePosition = Utils.fillTemplate(this.#settings.ANGLE_TEMPLATE, {angle: this.getAngleInSign()});
+            let angle = this.getAngleInSign();
+            let anglePosition = Utils.fillTemplate(this.#settings.ANGLE_TEMPLATE, {angle: angle});
 
             const angleInSignText = SVGUtils.SVGText(angleInSignPosition.x, angleInSignPosition.y, anglePosition)
             angleInSignText.setAttribute("font-family", this.#settings.CHART_FONT_FAMILY);
@@ -128,7 +144,37 @@ class Point {
             angleInSignText.setAttribute("dominant-baseline", "middle")
             angleInSignText.setAttribute("font-size", this.#settings.POINT_PROPERTIES_ANGLE_SIZE || this.#settings.POINT_PROPERTIES_FONT_SIZE);
             angleInSignText.setAttribute("fill", this.#settings.POINT_PROPERTIES_ANGLE_COLOR || this.#settings.POINT_PROPERTIES_COLOR);
+
+            if (this.#settings.CLASS_POINT_ANGLE) {
+                angleInSignText.setAttribute('class', this.#settings.CLASS_POINT_ANGLE + ' ' + this.#settings.CLASS_POINT_ANGLE + '--' + angle);
+            }
+
             wrapper.appendChild(angleInSignText)
+        }
+
+        /*
+        *  Show sign
+        */
+        function showSign() {
+            const signPosition = Utils.positionOnCircle(xPos, yPos, this.#settings.POINT_PROPERTIES_SIGN_OFFSET * this.#settings.POINT_COLLISION_RADIUS, Utils.degreeToRadian(-angleFromSymbolToCenter, angleShift))
+
+            /**
+             * Get the sign index
+             */
+            let symbolIndex = this.#settings.SIGN_LABELS.indexOf(this.#sign)
+
+            const signText = SVGUtils.SVGSymbol(this.#sign, signPosition.x, signPosition.y)
+            signText.setAttribute("font-family", this.#settings.CHART_FONT_FAMILY);
+            signText.setAttribute("text-anchor", "middle") // start, middle, end
+            signText.setAttribute("dominant-baseline", "middle")
+            signText.setAttribute("font-size", this.#settings.POINT_PROPERTIES_SIGN_SIZE || this.#settings.POINT_PROPERTIES_FONT_SIZE);
+            signText.setAttribute("fill", this.#settings.POINT_PROPERTIES_SIGN_COLOR || this.#settings.SIGN_COLORS[symbolIndex] || this.#settings.POINT_PROPERTIES_COLOR);
+
+            if (this.#settings.CLASS_POINT_SIGN) {
+                signText.setAttribute('class', this.#settings.CLASS_POINT_SIGN + ' ' + this.#settings.CLASS_POINT_SIGN + '--' + this.#sign.toLowerCase());
+            }
+
+            wrapper.appendChild(signText)
         }
 
         /*
@@ -143,6 +189,11 @@ class Point {
             retrogradeText.setAttribute("dominant-baseline", "middle")
             retrogradeText.setAttribute("font-size", this.#settings.POINT_PROPERTIES_RETROGRADE_SIZE || this.#settings.POINT_PROPERTIES_FONT_SIZE);
             retrogradeText.setAttribute("fill", this.#settings.POINT_PROPERTIES_RETROGRADE_COLOR || this.#settings.POINT_PROPERTIES_COLOR);
+
+            if (this.#settings.CLASS_POINT_RETROGRADE) {
+                retrogradeText.setAttribute('class', this.#settings.CLASS_POINT_RETROGRADE);
+            }
+
             wrapper.appendChild(retrogradeText)
         }
 
@@ -157,6 +208,11 @@ class Point {
             dignitiesText.setAttribute("dominant-baseline", "middle")
             dignitiesText.setAttribute("font-size", this.#settings.POINT_PROPERTIES_DIGNITY_SIZE || this.#settings.POINT_PROPERTIES_FONT_SIZE);
             dignitiesText.setAttribute("fill", this.#settings.POINT_PROPERTIES_DIGNITY_COLOR || this.#settings.POINT_PROPERTIES_COLOR);
+
+            if (this.#settings.CLASS_POINT_DIGNITY) {
+                dignitiesText.setAttribute('class', this.#settings.CLASS_POINT_DIGNITY + ' ' + this.#settings.CLASS_POINT_DIGNITY + '--' + dignitiesText); // Straightforward r/d/e/f
+            }
+
             wrapper.appendChild(dignitiesText)
         }
     }

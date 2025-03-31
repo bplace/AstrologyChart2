@@ -365,7 +365,6 @@ class RadixChart extends Chart {
     #drawPoints(data) {
         const points = data.points
         const cusps = data.cusps
-
         const wrapper = SVGUtils.SVGGroup()
 
         const positions = Utils.calculatePositionWithoutOverlapping(points, this.#settings.POINT_COLLISION_RADIUS, this.getPointCircleRadius())

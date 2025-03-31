@@ -1,25 +1,25 @@
 /**
-* Chart background color
-* @constant
-* @type {String}
-* @default #fff
-*/
+ * Chart background color
+ * @constant
+ * @type {String}
+ * @default #fff
+ */
 export const CHART_BACKGROUND_COLOR = "none";
 
 /**
-* Planets background color
-* @constant
-* @type {String}
-* @default #fff
-*/
+ * Planets background color
+ * @constant
+ * @type {String}
+ * @default #fff
+ */
 export const PLANETS_BACKGROUND_COLOR = "#fff";
 
 /**
-* Aspects background color
-* @constant
-* @type {String}
-* @default #fff
-*/
+ * Aspects background color
+ * @constant
+ * @type {String}
+ * @default #fff
+ */
 export const ASPECTS_BACKGROUND_COLOR = "#eee";
 
 /*
@@ -108,7 +108,7 @@ export const COLOR_TAURUS = "#8B4513";
 * @type {String}
 * @default #87CEEB
 */
-export const COLOR_GEMINI= "#87CEEB";
+export const COLOR_GEMINI = "#87CEEB";
 
 /*
 * Cancer color
@@ -196,36 +196,55 @@ export const CIRCLE_COLOR = "#333";
 * @type {Object}
 */
 export const ASPECT_COLORS = {
-  Conjunction:"#333",
-  Opposition:"#1B4F72",
-  Square:"#641E16",
-  Trine:"#0B5345",
-  Sextile:"#333",
-  Quincunx:"#333",
-  Semisextile:"#333",
-  Quintile:"#333",
-  Trioctile:"#333"
+    Conjunction: "#333",
+    Opposition: "#1B4F72",
+    Square: "#641E16",
+    Trine: "#0B5345",
+    Sextile: "#333",
+    Quincunx: "#333",
+    Semisextile: "#333",
+    Quintile: "#333",
+    Trioctile: "#333"
 }
 
 /**
  * Override individual planet symbol colors by planet name
  */
 export const PLANET_COLORS = {
-  //Sun: "#000",
-  //Moon: "#aaa",
+    //Sun: "#000",
+    //Moon: "#aaa",
 }
 
 /**
  * override individual sign symbol colors by zodiac index
  */
 export const SIGN_COLORS = {
-  //0: "#333"
+    //0: "#333"
 }
+
+/**
+ * All signs labels in the right order
+ * @type {string[]}
+ */
+export const SIGN_LABELS = [
+    "Aries",
+    "Taurus",
+    "Gemini",
+    "Cancer",
+    "Leo",
+    "Virgo",
+    "Libra",
+    "Scorpio",
+    "Sagittarius",
+    "Capricorn",
+    "Aquarius",
+    "Pisces",
+]
 
 /**
  * Override individual planet symbol colors by planet name on transit charts
  */
 export const TRANSIT_PLANET_COLORS = {
-  //Sun: "#000",
-  //Moon: "#aaa",
+    //Sun: "#000",
+    //Moon: "#aaa",
 }
