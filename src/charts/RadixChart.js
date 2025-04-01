@@ -147,7 +147,7 @@ class RadixChart extends Chart {
      * @return {Number}
      */
     getCenterCircleRadius() {
-        return 12 * (this.getRadius() / this.#numberOfLevels)
+        return 12 * (this.getRadius() / this.#numberOfLevels) * (this.#settings.CHART_CENTER_SIZE ?? 1)
     }
 
     /**
@@ -236,8 +236,8 @@ class RadixChart extends Chart {
         Utils.cleanUp(this.#root.getAttribute('id'), this.#beforeCleanUpHook)
         this.#drawBackground()
         this.#drawAstrologicalSigns()
-        this.#drawPoints(data)
         this.#drawCusps(data)
+        this.#drawPoints(data)
         this.#drawRuler()
         this.#drawBorders()
         this.#settings.CHART_DRAW_MAIN_AXIS && this.#drawMainAxisDescription(data)

@@ -84,6 +84,10 @@ export const POINT_PROPERTIES_DIGNITY_SIZE = 12
 */
 export const POINT_PROPERTIES_ANGLE_OFFSET = 2
 
+/**
+ * Offset from the planet
+ * @type {number}
+ */
 export const POINT_PROPERTIES_SIGN_OFFSET = 3.5
 
 /*

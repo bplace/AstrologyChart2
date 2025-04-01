@@ -24,6 +24,12 @@ export const CHART_VIEWBOX_WIDTH = 800
  */
 export const CHART_VIEWBOX_HEIGHT = 800
 
+/**
+ * Change the size of the center circle, where aspects are
+ * @type {number}
+ */
+export const CHART_CENTER_SIZE = 1
+
 /*
 * Line strength
 * @constant
