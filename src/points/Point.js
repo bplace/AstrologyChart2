@@ -249,6 +249,8 @@ class Point {
     /**
      * Get dignity symbol (r - rulership, d - detriment, f - fall, e - exaltation)
      *
+     * Use Modern dignities https://en.wikipedia.org/wiki/Essential_dignity
+     *
      * @return {String} - dignity symbol (r,d,f,e)
      */
     getDignity() {
@@ -272,195 +274,185 @@ class Point {
 
         switch (this.#name) {
             case SVGUtils.SYMBOL_SUN:
-                if (this.getSignNumber() == LEO) {
+                if (this.getSignNumber() === LEO) {
                     return RULERSHIP_SYMBOL //======>
                 }
 
-                if (this.getSignNumber() == AQUARIUS) {
+                if (this.getSignNumber() === AQUARIUS) {
                     return DETRIMENT_SYMBOL //======>
                 }
 
-                if (this.getSignNumber() == VIRGO) {
+                if (this.getSignNumber() === VIRGO) {
                     return FALL_SYMBOL //======>
                 }
 
-                if (this.getSignNumber() == ARIES) {
+                if (this.getSignNumber() === ARIES) {
                     return EXALTATION_SYMBOL //======>
                 }
 
                 return ""
-                break;
 
             case SVGUtils.SYMBOL_MOON:
-                if (this.getSignNumber() == CANCER) {
+                if (this.getSignNumber() === CANCER) {
                     return RULERSHIP_SYMBOL //======>
                 }
 
-                if (this.getSignNumber() == CAPRICORN) {
+                if (this.getSignNumber() === CAPRICORN) {
                     return DETRIMENT_SYMBOL //======>
                 }
 
-                if (this.getSignNumber() == SCORPIO) {
+                if (this.getSignNumber() === SCORPIO) {
                     return FALL_SYMBOL //======>
                 }
 
-                if (this.getSignNumber() == TAURUS) {
+                if (this.getSignNumber() === TAURUS) {
                     return EXALTATION_SYMBOL //======>
                 }
                 return ""
-                break;
 
             case SVGUtils.SYMBOL_MERCURY:
-                if (this.getSignNumber() == GEMINI) {
+                if (this.getSignNumber() === GEMINI) {
                     return RULERSHIP_SYMBOL //======>
                 }
 
-                if (this.getSignNumber() == SAGITTARIUS) {
+                if (this.getSignNumber() === SAGITTARIUS) {
                     return DETRIMENT_SYMBOL //======>
                 }
 
-                if (this.getSignNumber() == PISCES) {
+                if (this.getSignNumber() === PISCES) {
                     return FALL_SYMBOL //======>
                 }
 
-                if (this.getSignNumber() == VIRGO) {
+                if (this.getSignNumber() === VIRGO) {
                     return EXALTATION_SYMBOL //======>
                 }
                 return ""
-                break;
 
             case SVGUtils.SYMBOL_VENUS:
-                if (this.getSignNumber() == TAURUS || this.getSignNumber() == LIBRA) {
+                if (this.getSignNumber() === TAURUS || this.getSignNumber() === LIBRA) {
                     return RULERSHIP_SYMBOL //======>
                 }
 
-                if (this.getSignNumber() == ARIES || this.getSignNumber() == SCORPIO) {
+                if (this.getSignNumber() === ARIES || this.getSignNumber() === SCORPIO) {
                     return DETRIMENT_SYMBOL //======>
                 }
 
-                if (this.getSignNumber() == VIRGO) {
+                if (this.getSignNumber() === VIRGO) {
                     return FALL_SYMBOL //======>
                 }
 
-                if (this.getSignNumber() == PISCES) {
+                if (this.getSignNumber() === PISCES) {
                     return EXALTATION_SYMBOL //======>
                 }
                 return ""
-                break;
 
             case SVGUtils.SYMBOL_MARS:
-                if (this.getSignNumber() == ARIES || this.getSignNumber() == SCORPIO) {
+                if (this.getSignNumber() === ARIES || this.getSignNumber() === SCORPIO) {
                     return RULERSHIP_SYMBOL //======>
                 }
 
-                if (this.getSignNumber() == TAURUS || this.getSignNumber() == LIBRA) {
+                if (this.getSignNumber() === TAURUS || this.getSignNumber() === LIBRA) {
                     return DETRIMENT_SYMBOL //======>
                 }
 
-                if (this.getSignNumber() == CANCER) {
+                if (this.getSignNumber() === CANCER) {
                     return FALL_SYMBOL //======>
                 }
 
-                if (this.getSignNumber() == CAPRICORN) {
+                if (this.getSignNumber() === CAPRICORN) {
                     return EXALTATION_SYMBOL //======>
                 }
                 return ""
-                break;
 
             case SVGUtils.SYMBOL_JUPITER:
-                if (this.getSignNumber() == SAGITTARIUS || this.getSignNumber() == PISCES) {
+                if (this.getSignNumber() === SAGITTARIUS || this.getSignNumber() === PISCES) {
                     return RULERSHIP_SYMBOL //======>
                 }
 
-                if (this.getSignNumber() == GEMINI || this.getSignNumber() == VIRGO) {
+                if (this.getSignNumber() === GEMINI || this.getSignNumber() === VIRGO) {
                     return DETRIMENT_SYMBOL //======>
                 }
 
-                if (this.getSignNumber() == CAPRICORN) {
+                if (this.getSignNumber() === CAPRICORN) {
                     return FALL_SYMBOL //======>
                 }
 
-                if (this.getSignNumber() == CANCER) {
+                if (this.getSignNumber() === CANCER) {
                     return EXALTATION_SYMBOL //======>
                 }
                 return ""
-                break;
 
             case SVGUtils.SYMBOL_SATURN:
-                if (this.getSignNumber() == CAPRICORN || this.getSignNumber() == AQUARIUS) {
+                if (this.getSignNumber() === CAPRICORN || this.getSignNumber() === AQUARIUS) {
                     return RULERSHIP_SYMBOL //======>
                 }
 
-                if (this.getSignNumber() == CANCER || this.getSignNumber() == LEO) {
+                if (this.getSignNumber() === CANCER || this.getSignNumber() === LEO) {
                     return DETRIMENT_SYMBOL //======>
                 }
 
-                if (this.getSignNumber() == ARIES) {
+                if (this.getSignNumber() === ARIES) {
                     return FALL_SYMBOL //======>
                 }
 
-                if (this.getSignNumber() == LIBRA) {
+                if (this.getSignNumber() === LIBRA) {
                     return EXALTATION_SYMBOL //======>
                 }
                 return ""
-                break;
 
             case SVGUtils.SYMBOL_URANUS:
-                if (this.getSignNumber() == AQUARIUS) {
+                if (this.getSignNumber() === AQUARIUS) {
                     return RULERSHIP_SYMBOL //======>
                 }
 
-                if (this.getSignNumber() == LEO) {
+                if (this.getSignNumber() === LEO) {
                     return DETRIMENT_SYMBOL //======>
                 }
 
-                if (this.getSignNumber() == TAURUS) {
+                if (this.getSignNumber() === TAURUS) {
                     return FALL_SYMBOL //======>
                 }
 
-                if (this.getSignNumber() == SCORPIO) {
+                if (this.getSignNumber() === SCORPIO) {
                     return EXALTATION_SYMBOL //======>
                 }
                 return ""
-                break;
 
             case SVGUtils.SYMBOL_NEPTUNE:
-                if (this.getSignNumber() == PISCES) {
+                if (this.getSignNumber() === PISCES) {
                     return RULERSHIP_SYMBOL //======>
                 }
 
-                if (this.getSignNumber() == VIRGO) {
+                if (this.getSignNumber() === VIRGO) {
                     return DETRIMENT_SYMBOL //======>
                 }
 
-                if (this.getSignNumber() == GEMINI || this.getSignNumber() == AQUARIUS) {
+                if (this.getSignNumber() === GEMINI || this.getSignNumber() === AQUARIUS) {
                     return FALL_SYMBOL //======>
                 }
 
-                if (this.getSignNumber() == SAGITTARIUS || this.getSignNumber() == LEO) {
+                if (this.getSignNumber() === SAGITTARIUS || this.getSignNumber() === LEO) {
                     return EXALTATION_SYMBOL //======>
                 }
                 return ""
-                break;
 
             case SVGUtils.SYMBOL_PLUTO:
-                if (this.getSignNumber() == SCORPIO) {
+                if (this.getSignNumber() === SCORPIO) {
                     return RULERSHIP_SYMBOL //======>
                 }
 
-                if (this.getSignNumber() == TAURUS) {
+                if (this.getSignNumber() === TAURUS) {
                     return DETRIMENT_SYMBOL //======>
                 }
 
-                if (this.getSignNumber() == LIBRA) {
+                if (this.getSignNumber() === LIBRA) {
                     return FALL_SYMBOL //======>
                 }
 
-                if (this.getSignNumber() == ARIES) {
+                if (this.getSignNumber() === ARIES) {
                     return EXALTATION_SYMBOL //======>
                 }
                 return ""
-                break;
 
             default:
                 return ""
