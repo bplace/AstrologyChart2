@@ -52,6 +52,7 @@ class SVGUtils {
     static SYMBOL_SEXTILE = "Sextile";
     static SYMBOL_QUINCUNX = "Quincunx";
     static SYMBOL_SEMISEXTILE = "Semisextile";
+    static SYMBOL_SEMISQUARE = "Semisquare";
     static SYMBOL_OCTILE = "Octile";
     static SYMBOL_TRIOCTILE = "Trioctile";
     static SYMBOL_QUINTILE = "Quintile";
@@ -112,13 +113,28 @@ class SVGUtils {
      * Semi-Square or Octile
      * @type {string}
      */
-    static SYMBOL_OCTILE_CODE = "(";
+    static SYMBOL_SEMISQUARE_CODE = "(";
 
     /**
-     * Sesquiquadrate or Tri-Octile
+     * Sesquiquadrate or Tri-Octile or Sesquisquare
      * @type {string}
      */
     static SYMBOL_TRIOCTILE_CODE = ")";
+
+    static SYMBOL_BIQUINTILE_CODE = "*";
+
+    static SYMBOL_QUINTILE_CODE = "·";
+
+    static SYMBOL_SEMIQUINTILE_CODE = ",";
+
+    static SYMBOL_QUINDECILE_CODE = "¸";
+
+    /**
+     * Quintile (variant)
+     *
+     * @type {string}
+     */
+    static SYMBOL_QUINTILE_VARIANT_CODE = "+";
 
 
     constructor() {
@@ -393,8 +409,9 @@ class SVGUtils {
             case SVGUtils.SYMBOL_SEMISEXTILE:
                 return semisextileSymbol(xPos, yPos)
 
+            case SVGUtils.SYMBOL_SEMISQUARE:
             case SVGUtils.SYMBOL_OCTILE:
-                return quintileSymbol(xPos, yPos)
+                return semisquareSymbol(xPos, yPos)
 
             case SVGUtils.SYMBOL_TRIOCTILE:
                 return trioctileSymbol(xPos, yPos)
@@ -682,10 +699,18 @@ class SVGUtils {
         }
 
         /*
-         * Quintile symbol
+        * Semisquare symbol
+        * aka Quintile/ Octile symbol
+        */
+        function semisquareSymbol(xPos, yPos) {
+            return SVGUtils.SVGText(xPos, yPos, SVGUtils.SYMBOL_SEMISQUARE_CODE)
+        }
+
+        /*
+         * Quintile
          */
         function quintileSymbol(xPos, yPos) {
-            return SVGUtils.SVGText(xPos, yPos, SVGUtils.SYMBOL_OCTILE_CODE)
+            return SVGUtils.SVGText(xPos, yPos, SVGUtils.SYMBOL_SEMISQUARE_CODE)
         }
 
         /*
