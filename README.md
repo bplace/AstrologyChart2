@@ -2,6 +2,7 @@
 
 Fork with additional settings, tweaks, etc.
 
+![Example Chart](https://raw.githubusercontent.com/bplace/AstrologyChart2/refs/heads/master/assets/chart-result.png)
 
 ## Original Readme
 
