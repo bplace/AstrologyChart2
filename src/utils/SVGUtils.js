@@ -287,7 +287,7 @@ class SVGUtils {
      *
      * @return {SVGElement}
      */
-    static SVGSymbol(name, xPos, yPos) {
+    static SVGSymbol(name, xPos, yPos, ) {
         switch (name) {
             case SVGUtils.SYMBOL_AS:
                 return asSymbol(xPos, yPos)

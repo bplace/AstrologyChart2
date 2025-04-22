@@ -273,6 +273,10 @@ class RadixChart extends Chart {
         const COLORS_SIGNS = [this.#settings.COLOR_ARIES, this.#settings.COLOR_TAURUS, this.#settings.COLOR_GEMINI, this.#settings.COLOR_CANCER, this.#settings.COLOR_LEO, this.#settings.COLOR_VIRGO, this.#settings.COLOR_LIBRA, this.#settings.COLOR_SCORPIO, this.#settings.COLOR_SAGITTARIUS, this.#settings.COLOR_CAPRICORN, this.#settings.COLOR_AQUARIUS, this.#settings.COLOR_PISCES]
         const SYMBOL_SIGNS = [SVGUtils.SYMBOL_ARIES, SVGUtils.SYMBOL_TAURUS, SVGUtils.SYMBOL_GEMINI, SVGUtils.SYMBOL_CANCER, SVGUtils.SYMBOL_LEO, SVGUtils.SYMBOL_VIRGO, SVGUtils.SYMBOL_LIBRA, SVGUtils.SYMBOL_SCORPIO, SVGUtils.SYMBOL_SAGITTARIUS, SVGUtils.SYMBOL_CAPRICORN, SVGUtils.SYMBOL_AQUARIUS, SVGUtils.SYMBOL_PISCES]
 
+        if (COLORS_SIGNS.length !== 12) {
+            console.error('Missing entries in COLOR_SIGNS, requires 12 entries');
+        }
+
         const makeSymbol = (symbolIndex, angleInDegree) => {
             let position = Utils.positionOnCircle(this.#centerX, this.#centerY, this.getOuterCircleRadius() - ((this.getOuterCircleRadius() - this.getInnerCircleRadius()) / 2), Utils.degreeToRadian(angleInDegree + STEP / 2, this.getAscendantShift()))
 
@@ -281,10 +285,21 @@ class RadixChart extends Chart {
             symbol.setAttribute("text-anchor", "middle") // start, middle, end
             symbol.setAttribute("dominant-baseline", "middle")
             symbol.setAttribute("font-size", this.#settings.RADIX_SIGNS_FONT_SIZE);
-            symbol.setAttribute("fill", this.#settings.SIGN_COLORS[symbolIndex] ?? this.#settings.CHART_SIGNS_COLOR);
+            if (this.#settings.SIGN_COLOR_CIRCLE !== null) {
+                symbol.setAttribute("fill", this.#settings.SIGN_COLOR_CIRCLE);
+            } else {
+                symbol.setAttribute("fill", this.#settings.SIGN_COLORS[symbolIndex] ?? this.#settings.CHART_SIGNS_COLOR);
+            }
+
 
             if (this.#settings.CLASS_SIGN) {
-                symbol.setAttribute('class', this.#settings.CLASS_SIGN + ' ' + this.#settings.CLASS_SIGN + SYMBOL_SIGNS[symbolIndex].toLowerCase());
+                symbol.setAttribute('class', this.#settings.CLASS_SIGN + ' ' + this.#settings.CLASS_SIGN + '--' + SYMBOL_SIGNS[symbolIndex].toLowerCase());
+            }
+
+            if (this.#settings.SYMBOL_STROKE) {
+                symbol.setAttribute('paint-order', 'stroke');
+                symbol.setAttribute('stroke', this.#settings.SYMBOL_STROKE_COLOR);
+                symbol.setAttribute('stroke-width', this.#settings.SYMBOL_STROKE_WIDTH);
             }
 
             return symbol
@@ -384,17 +399,11 @@ class RadixChart extends Chart {
                 wrapper.appendChild(rulerLine);
             }
 
-            // symbol
-            const symbol = point.getSymbol(symbolPosition.x, symbolPosition.y, Utils.DEG_0, this.#settings.POINT_PROPERTIES_SHOW)
-            symbol.setAttribute("font-family", this.#settings.CHART_FONT_FAMILY);
-            symbol.setAttribute("text-anchor", "middle") // start, middle, end
-            symbol.setAttribute("dominant-baseline", "middle")
-            symbol.setAttribute("font-size", this.#settings.RADIX_POINTS_FONT_SIZE)
-            symbol.setAttribute("fill", this.#settings.PLANET_COLORS[pointData.name] ?? this.#settings.CHART_POINTS_COLOR)
-            wrapper.appendChild(symbol);
-
-            // pointer
-            //if (positions[point.getName()] != pointData.position) {
+            /**
+             * Line from the ruler to the celestial body
+             * @type {{x, y}}
+             */
+                //if (positions[point.getName()] != pointData.position) {
             const pointerLineEndPosition = Utils.positionOnCircle(this.#centerX, this.#centerX, this.getPointCircleRadius(), Utils.degreeToRadian(positions[point.getName()], this.getAscendantShift()))
 
             let pointerLine;
@@ -403,8 +412,6 @@ class RadixChart extends Chart {
             } else {
                 pointerLine = SVGUtils.SVGLine(rulerLineEndPosition.x, rulerLineEndPosition.y, (pointPosition.x + pointerLineEndPosition.x) / 2, (pointPosition.y + pointerLineEndPosition.y) / 2)
             }
-
-
             if (this.#settings.PLANET_LINE_USE_PLANET_COLOR) {
                 pointerLine.setAttribute("stroke", this.#settings.PLANET_COLORS[pointData.name] ?? this.#settings.CHART_LINE_COLOR);
             } else {
@@ -414,6 +421,18 @@ class RadixChart extends Chart {
             pointerLine.setAttribute("stroke-width", this.#settings.CHART_STROKE / 2);
 
             wrapper.appendChild(pointerLine);
+
+            /**
+             * Symnol of the celestial body + points
+             * @type {SVGElement}
+             */
+            const symbol = point.getSymbol(symbolPosition.x, symbolPosition.y, Utils.DEG_0, this.#settings.POINT_PROPERTIES_SHOW)
+            symbol.setAttribute("font-family", this.#settings.CHART_FONT_FAMILY);
+            symbol.setAttribute("text-anchor", "middle") // start, middle, end
+            symbol.setAttribute("dominant-baseline", "middle")
+            symbol.setAttribute("font-size", this.#settings.RADIX_POINTS_FONT_SIZE)
+            symbol.setAttribute("fill", this.#settings.PLANET_COLORS[pointData.name] ?? this.#settings.CHART_POINTS_COLOR)
+            wrapper.appendChild(symbol);
         }
 
         this.#root.appendChild(wrapper)
@@ -525,10 +544,12 @@ class RadixChart extends Chart {
             let SHIFT_X = 0;
             let SHIFT_Y = 0;
             const STEP = 2
+
             switch (axis.name) {
                 case "As":
                     SHIFT_X -= STEP
                     SHIFT_Y -= STEP
+                    SVGUtils.SYMBOL_AS_CODE = this.#settings.SYMBOL_AS_CODE ?? SVGUtils.SYMBOL_AS_CODE;
                     symbol = SVGUtils.SVGSymbol(axis.name, textPoint.x + SHIFT_X, textPoint.y + SHIFT_Y)
                     symbol.setAttribute("text-anchor", "end")
                     symbol.setAttribute("dominant-baseline", "middle")
@@ -536,18 +557,21 @@ class RadixChart extends Chart {
                 case "Ds":
                     SHIFT_X += STEP
                     SHIFT_Y -= STEP
+                    SVGUtils.SYMBOL_DS_CODE = this.#settings.SYMBOL_DS_CODE ?? SVGUtils.SYMBOL_DS_CODE;
                     symbol = SVGUtils.SVGSymbol(axis.name, textPoint.x + SHIFT_X, textPoint.y + SHIFT_Y)
                     symbol.setAttribute("text-anchor", "start")
                     symbol.setAttribute("dominant-baseline", "middle")
                     break;
                 case "Mc":
                     SHIFT_Y -= STEP
+                    SVGUtils.SYMBOL_MC_CODE = this.#settings.SYMBOL_MC_CODE ?? SVGUtils.SYMBOL_MC_CODE;
                     symbol = SVGUtils.SVGSymbol(axis.name, textPoint.x + SHIFT_X, textPoint.y + SHIFT_Y)
                     symbol.setAttribute("text-anchor", "middle")
                     symbol.setAttribute("dominant-baseline", "text-top")
                     break;
                 case "Ic":
                     SHIFT_Y += STEP
+                    SVGUtils.SYMBOL_IC_CODE = this.#settings.SYMBOL_IC_CODE ?? SVGUtils.SYMBOL_IC_CODE;
                     symbol = SVGUtils.SVGSymbol(axis.name, textPoint.x + SHIFT_X, textPoint.y + SHIFT_Y)
                     symbol.setAttribute("text-anchor", "middle")
                     symbol.setAttribute("dominant-baseline", "hanging")
@@ -556,12 +580,14 @@ class RadixChart extends Chart {
                     console.error(axis.name)
                     throw new Error("Unknown axis name.")
             }
-            symbol.setAttribute("font-family", this.#settings.CHART_FONT_FAMILY);
+            symbol.setAttribute("font-family", this.#settings.AXIS_FONT_FAMILY ?? this.#settings.CHART_FONT_FAMILY);
             symbol.setAttribute("font-size", this.#settings.RADIX_AXIS_FONT_SIZE);
+            symbol.setAttribute("font-weight", this.#settings.AXIS_FONT_WEIGHT ?? 400);
             symbol.setAttribute("fill", this.#settings.CHART_MAIN_AXIS_COLOR);
+            symbol.setAttribute('paint-order', 'stroke');
 
             if (this.#settings.CLASS_AXIS) {
-                symbol.setAttribute('class', this.#settings.CLASS_AXIS + ' ' + this.#settings.CLASS_AXIS + axis.name.toLowerCase());
+                symbol.setAttribute('class', this.#settings.CLASS_AXIS + ' ' + this.#settings.CLASS_AXIS + '--' + axis.name.toLowerCase());
             }
 
             wrapper.appendChild(symbol);

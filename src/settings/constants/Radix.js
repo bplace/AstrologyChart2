@@ -37,3 +37,10 @@ export const RADIX_SIGNS_FONT_SIZE = 27
 * @default 24
 */
 export const RADIX_AXIS_FONT_SIZE = 32
+
+
+export const SYMBOL_STROKE = false
+export const SYMBOL_STROKE_COLOR = '#FFF'
+export const SYMBOL_STROKE_WIDTH = '4'
+
+export const SIGN_COLOR_CIRCLE = null

@@ -30,7 +30,39 @@
 <script src="../dist/astrochart2.js"></script>
 <script>
     // fetch from server
-    let data = {"points":[{"name":"Sun","angle":41.6191,"sign":"Taurus"},{"name":"Moon","angle":326.3427,"sign":"Aquarius"},{"name":"Mercury","angle":20.9778,"isRetrograde":false,"sign":"Aries"},{"name":"Venus","angle":66.7293,"isRetrograde":false,"sign":"Gemini"},{"name":"Mars","angle":285.5706,"isRetrograde":false,"sign":"Capricorn"},{"name":"Jupiter","angle":345.5965,"isRetrograde":false,"sign":"Pisces"},{"name":"Saturn","angle":248.2183,"isRetrograde":true,"sign":"Sagittarius"},{"name":"Uranus","angle":261.851,"isRetrograde":true,"sign":"Sagittarius"},{"name":"Neptune","angle":275.6475,"isRetrograde":true,"sign":"Capricorn"},{"name":"Pluto","angle":215.8101,"isRetrograde":true,"sign":"Scorpio"},{"name":"Chiron","angle":73.0221,"isRetrograde":false,"sign":"Gemini"},{"name":"NNode","angle":29.399,"sign":"Aries"},{"name":"SNode","angle":209.399,"sign":"Libra"},{"name":"Lilith","angle":67.2073,"sign":"Gemini"}],"cusps":[{"angle":93.9229},{"angle":111.3952},{"angle":130.5468},{"angle":154.5831},{"angle":188.3074},{"angle":232.7495},{"angle":273.9229},{"angle":291.3952},{"angle":310.5468},{"angle":334.5831},{"angle":8.3074},{"angle":52.7495}]}
+    let data = {
+        "points": [{"name": "Sun", "angle": 41.6191, "sign": "Taurus"}, {"name": "Moon", "angle": 326.3427, "sign": "Aquarius"}, {
+            "name": "Mercury",
+            "angle": 20.9778,
+            "isRetrograde": false,
+            "sign": "Aries"
+        }, {"name": "Venus", "angle": 66.7293, "isRetrograde": false, "sign": "Gemini"}, {
+            "name": "Mars",
+            "angle": 285.5706,
+            "isRetrograde": false,
+            "sign": "Capricorn"
+        }, {"name": "Jupiter", "angle": 345.5965, "isRetrograde": false, "sign": "Pisces"}, {
+            "name": "Saturn",
+            "angle": 248.2183,
+            "isRetrograde": true,
+            "sign": "Sagittarius"
+        }, {"name": "Uranus", "angle": 261.851, "isRetrograde": true, "sign": "Sagittarius"}, {
+            "name": "Neptune",
+            "angle": 275.6475,
+            "isRetrograde": true,
+            "sign": "Capricorn"
+        }, {"name": "Pluto", "angle": 215.8101, "isRetrograde": true, "sign": "Scorpio"}, {
+            "name": "Chiron",
+            "angle": 73.0221,
+            "isRetrograde": false,
+            "sign": "Gemini"
+        }, {"name": "NNode", "angle": 29.399, "sign": "Aries"}, {"name": "SNode", "angle": 209.399, "sign": "Libra"}, {
+            "name": "Lilith",
+            "angle": 67.2073,
+            "sign": "Gemini"
+        }],
+        "cusps": [{"angle": 93.9229}, {"angle": 111.3952}, {"angle": 130.5468}, {"angle": 154.5831}, {"angle": 188.3074}, {"angle": 232.7495}, {"angle": 273.9229}, {"angle": 291.3952}, {"angle": 310.5468}, {"angle": 334.5831}, {"angle": 8.3074}, {"angle": 52.7495}]
+    }
 
 
     let settings = {
@@ -54,40 +86,41 @@
         POINT_PROPERTIES_RETROGRADE_OFFSET: 4.7,
         POINT_PROPERTIES_DIGNITY_OFFSET: 5.7,
         ASPECTS_BACKGROUND_COLOR: '#e4e5f1', // Background of the inner circle, with the aspects
-        COLOR_ARIES: '#ebecef',
-        COLOR_TAURUS: '#ebecef',
-        COLOR_GEMINI: '#ebecef',
-        COLOR_CANCER: '#ebecef',
-        COLOR_LEO: '#ebecef',
-        COLOR_VIRGO: '#ebecef',
-        COLOR_LIBRA: '#ebecef',
-        COLOR_SCORPIO: '#ebecef',
-        COLOR_SAGITTARIUS: '#ebecef',
-        COLOR_CAPRICORN: '#ebecef',
-        COLOR_AQUARIUS: '#ebecef',
-        COLOR_PISCES: '#ebecef',
+        COLOR_ARIES: '#F44336',
+        COLOR_TAURUS: '#4CAF50',
+        COLOR_GEMINI: '#B0E0E6',
+        COLOR_CANCER: '#00acd4',
+        COLOR_LEO: '#F44336',
+        COLOR_VIRGO: '#4CAF50',
+        COLOR_LIBRA: '#B0E0E6',
+        COLOR_SCORPIO: '#00acd4',
+        COLOR_SAGITTARIUS: '#F44336',
+        COLOR_CAPRICORN: '#4CAF50',
+        COLOR_AQUARIUS: '#B0E0E6',
+        COLOR_PISCES: '#00acd4',
         CHART_STROKE_WITH_COLOR: true,
         // CHART_STROKE_ONLY: true,
         SIGN_COLORS: {
-            0: "#FF4500",
-            1: "#8B4513",
-            2: "#5fc1e8",
-            3: "#27AE60",
-            4: "#FF4500",
-            5: "#8B4513",
-            6: "#5fc1e8",
-            7: "#27AE60",
-            8: "#FF4500",
-            9: "#8B4513",
-            10: "#5fc1e8",
-            11: "#27AE60",
+            0: "#F44336",
+            1: "#4CAF50",
+            2: "#B0E0E6",
+            3: "#00acd4",
+            4: "#F44336",
+            5: "#4CAF50",
+            6: "#B0E0E6",
+            7: "#00acd4",
+            8: "#F44336",
+            9: "#4CAF50",
+            10: "#B0E0E6",
+            11: "#00acd4",
         },
+        SIGN_COLOR_CIRCLE: "#2b2b2b",
         CLASS_CELESTIAL: 'c-radix__celestial',
         CLASS_POINT_ANGLE: 'c-radix__point-angle',
         CLASS_POINT_SIGN: 'c-radix__point-sign',
         CLASS_POINT_RETROGRADE: 'c-radix__point-retrograde',
         CLASS_POINT_DIGNITY: 'c-radix__point-dignity',
-        CLASS_SIGN: 'c-radix__celestial',
+        CLASS_SIGN: 'c-radix__sign',
         CLASS_SIGN_SEGMENT: 'c-radix__sign-segment',
         CLASS_AXIS: 'c-radix__axis',
         CLASS_SIGN_ASPECT: 'c-radix__aspect',
@@ -109,15 +142,17 @@
             Lilith: "#313142",
         },
         ASPECT_COLORS: {
-            Conjunction: "#B824C8",
-            Opposition: "#6c19ba",
-            Square: "#af3020",
-            Trine: "#16985d",
-            Sextile: "#62ae11",
-            Quincunx: "#16985d",
-            Semisextile: "#62ae11",
+            Conjunction: "#f27019",
+            Opposition: "#f27019",
+            Square: "#ff9c0d",
+            Trine: "#1187c9",
+            Sextile: "#138c55",
+            Quincunx: "#2929a8",
+            Semisextile: "#8e67ef",
+            Semisquare: '#bb4dc1', // Semisquare = Octile
+            Octile: '#bb4dc1', // Semisquare = Octile
             Quintile: "#ea9b01",
-            Trioctile: "#af3020"
+            Trioctile: "#ed00c0"
         },
         PLANET_LINE_USE_PLANET_COLOR: true,
         CHART_STROKE: 2,
@@ -140,7 +175,15 @@
             {name: "Quintile", angle: 72, orb: 1},
             {name: "Trioctile", angle: 135, orb: 1},
             {name: "Semisquare", angle: 45, orb: 1},
-        ]
+        ],
+        AXIS_FONT_FAMILY: 'Barlow Condensed',
+        AXIS_FONT_WEIGHT: 400,
+        RADIX_AXIS_FONT_SIZE: 20,
+        SYMBOL_AS_CODE: "Asc",
+        SYMBOL_DS_CODE: "Dsc",
+        SYMBOL_MC_CODE: "MC",
+        SYMBOL_IC_CODE: "FC",
+        POINT_STROKE: true,
     };
 
     new astrology.Universe('paper', settings).radix().setData(data)

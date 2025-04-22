@@ -135,3 +135,12 @@ export const CLASS_POINT_ANGLE = '';
 export const CLASS_POINT_SIGN = '';
 export const CLASS_POINT_RETROGRADE = '';
 export const CLASS_POINT_DIGNITY = '';
+
+/**
+ * Add a stroke around all points
+ */
+export const POINT_STROKE = false;
+export const POINT_STROKE_COLOR = '#fff';
+export const POINT_STROKE_WIDTH = 2;
+
+export const POINT_PROPERTIES_SIGN_COLOR = null;

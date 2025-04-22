@@ -156,8 +156,11 @@ class AspectUtils {
             symbol.setAttribute("fill", settings.ASPECT_COLORS[asp.aspect.name] ?? "#333");
 
             if (settings.CLASS_SIGN_ASPECT) {
-                symbol.setAttribute("class", settings.CLASS_SIGN_ASPECT)
+                symbol.setAttribute("class", settings.CLASS_SIGN_ASPECT + ' ' + settings.CLASS_SIGN_ASPECT + '--' + asp.aspect.name.toLowerCase())
             }
+
+            symbol.dataset.from = asp.from.name.toLowerCase();
+            symbol.dataset.to = asp.to.name.toLowerCase();
 
             wrapper.appendChild(symbol);
         }

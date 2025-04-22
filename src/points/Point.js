@@ -27,7 +27,7 @@ class Point {
         this.#sign = pointData.sign ?? null
         this.#isRetrograde = pointData.isRetrograde ?? false
 
-        if (! Array.isArray(cusps) || cusps.length != 12) {
+        if (! Array.isArray(cusps) || cusps.length !== 12) {
             throw new Error("Bad param cusps. ")
         }
 
@@ -95,6 +95,12 @@ class Point {
             symbol.setAttribute('class', this.#settings.CLASS_CELESTIAL + ' ' + this.#settings.CLASS_CELESTIAL + '--' + this.#name.toLowerCase());
         }
 
+        if (this.#settings.POINT_STROKE ?? false) {
+            symbol.setAttribute('paint-order', 'stroke');
+            symbol.setAttribute('stroke', this.#settings.POINT_STROKE_COLOR);
+            symbol.setAttribute('stroke-width', this.#settings.POINT_STROKE_WIDTH);
+        }
+
         wrapper.appendChild(symbol)
 
         if (isProperties === false) {
@@ -149,6 +155,12 @@ class Point {
                 angleInSignText.setAttribute('class', this.#settings.CLASS_POINT_ANGLE + ' ' + this.#settings.CLASS_POINT_ANGLE + '--' + angle);
             }
 
+            if (this.#settings.POINT_STROKE ?? false) {
+                angleInSignText.setAttribute('paint-order', 'stroke');
+                angleInSignText.setAttribute('stroke', this.#settings.POINT_STROKE_COLOR);
+                angleInSignText.setAttribute('stroke-width', this.#settings.POINT_STROKE_WIDTH);
+            }
+
             wrapper.appendChild(angleInSignText)
         }
 
@@ -168,10 +180,24 @@ class Point {
             signText.setAttribute("text-anchor", "middle") // start, middle, end
             signText.setAttribute("dominant-baseline", "middle")
             signText.setAttribute("font-size", this.#settings.POINT_PROPERTIES_SIGN_SIZE || this.#settings.POINT_PROPERTIES_FONT_SIZE);
-            signText.setAttribute("fill", this.#settings.POINT_PROPERTIES_SIGN_COLOR || this.#settings.SIGN_COLORS[symbolIndex] || this.#settings.POINT_PROPERTIES_COLOR);
+
+            /**
+             * Override sign colors
+             */
+            if (this.#settings.POINT_PROPERTIES_SIGN_COLOR !== null) {
+                signText.setAttribute("fill", this.#settings.POINT_PROPERTIES_SIGN_COLOR);
+            } else {
+                signText.setAttribute("fill", this.#settings.SIGN_COLORS[symbolIndex] || this.#settings.POINT_PROPERTIES_COLOR);
+            }
+
 
             if (this.#settings.CLASS_POINT_SIGN) {
                 signText.setAttribute('class', this.#settings.CLASS_POINT_SIGN + ' ' + this.#settings.CLASS_POINT_SIGN + '--' + this.#sign.toLowerCase());
+            }
+            if (this.#settings.POINT_STROKE ?? false) {
+                signText.setAttribute('paint-order', 'stroke');
+                signText.setAttribute('stroke', this.#settings.POINT_STROKE_COLOR);
+                signText.setAttribute('stroke-width', this.#settings.POINT_STROKE_WIDTH);
             }
 
             wrapper.appendChild(signText)
@@ -194,6 +220,12 @@ class Point {
                 retrogradeText.setAttribute('class', this.#settings.CLASS_POINT_RETROGRADE);
             }
 
+            if (this.#settings.POINT_STROKE ?? false) {
+                retrogradeText.setAttribute('paint-order', 'stroke');
+                retrogradeText.setAttribute('stroke', this.#settings.POINT_STROKE_COLOR);
+                retrogradeText.setAttribute('stroke-width', this.#settings.POINT_STROKE_WIDTH);
+            }
+
             wrapper.appendChild(retrogradeText)
         }
 
@@ -211,6 +243,12 @@ class Point {
 
             if (this.#settings.CLASS_POINT_DIGNITY) {
                 dignitiesText.setAttribute('class', this.#settings.CLASS_POINT_DIGNITY + ' ' + this.#settings.CLASS_POINT_DIGNITY + '--' + dignitiesText); // Straightforward r/d/e/f
+            }
+
+            if (this.#settings.POINT_STROKE ?? false) {
+                dignitiesText.setAttribute('paint-order', 'stroke');
+                dignitiesText.setAttribute('stroke', this.#settings.POINT_STROKE_COLOR);
+                dignitiesText.setAttribute('stroke-width', this.#settings.POINT_STROKE_WIDTH);
             }
 
             wrapper.appendChild(dignitiesText)
@@ -461,6 +499,5 @@ class Point {
 }
 
 export {
-    Point as
-        default
+    Point as default
 }
