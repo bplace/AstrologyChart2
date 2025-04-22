@@ -1,4 +1,10 @@
-# Astrology Chart 2
+# Astrology Chart 2 Fork
+
+Fork with additional settings, tweaks, etc.
+
+
+## Original Readme
+
 A JavaScript library with clean API and zero dependencies **for generating astrology charts**.
 
 It does not calculate any positions of the planets in Universe.
