@@ -141,3 +141,6 @@ export const PLANET_LINE_USE_PLANET_COLOR = false;
  * Draw a ruler mark (tiny square) at planet position
  */
 export const DRAW_RULER_MARK = true;
+
+export const FONT_ASTRONOMICON_LOAD = true;
+export const FONT_ASTRONOMICON_PATH = '../assets/fonts/ttf/AstronomiconFonts_1.1/Astronomicon.ttf';
