@@ -248,6 +248,7 @@ class RadixChart extends Chart {
         const MASK_ID = `${this.#settings.HTML_ELEMENT_ID}-${this.#settings.RADIX_ID}-background-mask-1`
 
         const wrapper = SVGUtils.SVGGroup()
+        wrapper.classList.add('c-radix-background')
 
         const mask = SVGUtils.SVGMask(MASK_ID)
         const outerCircle = SVGUtils.SVGCircle(this.#centerX, this.#centerY, this.getRadius())
@@ -264,7 +265,7 @@ class RadixChart extends Chart {
         circle.setAttribute("mask", this.#settings.CHART_STROKE_ONLY ? "none" : `url(#${MASK_ID})`);
         wrapper.appendChild(circle)
 
-        this.#root.appendChild(wrapper)
+        this.#root.parentElement.querySelector('.c-backgrounds').appendChild(wrapper)
     }
 
     #drawAstrologicalSigns() {
@@ -331,6 +332,7 @@ class RadixChart extends Chart {
         let endAngle = startAngle + STEP
 
         const wrapper = SVGUtils.SVGGroup()
+        wrapper.classList.add('c-radix-astrological-signs')
 
         for (let i = 0; i < NUMBER_OF_ASTROLOGICAL_SIGNS; i++) {
 
@@ -352,6 +354,7 @@ class RadixChart extends Chart {
         const STEP = 5
 
         const wrapper = SVGUtils.SVGGroup()
+        wrapper.classList.add('c-radix-ruler')
 
         let startAngle = this.getAscendantShift()
         for (let i = 0; i < NUMBER_OF_DIVIDERS; i++) {
@@ -381,10 +384,15 @@ class RadixChart extends Chart {
         const points = data.points
         const cusps = data.cusps
         const wrapper = SVGUtils.SVGGroup()
+        wrapper.classList.add('c-radix-points')
 
         const positions = Utils.calculatePositionWithoutOverlapping(points, this.#settings.POINT_COLLISION_RADIUS, this.getPointCircleRadius())
 
         for (const pointData of points) {
+            const pointGroup = SVGUtils.SVGGroup();
+            pointGroup.classList.add('c-radix-point')
+            pointGroup.classList.add('c-radix-point--' + pointData.name.toLowerCase())
+
             const point = new Point(pointData, cusps, this.#settings)
             const pointPosition = Utils.positionOnCircle(this.#centerX, this.#centerX, this.getRullerCircleRadius() - ((this.getInnerCircleRadius() - this.getRullerCircleRadius()) / 4), Utils.degreeToRadian(point.getAngle(), this.getAscendantShift()))
             const symbolPosition = Utils.positionOnCircle(this.#centerX, this.#centerX, this.getPointCircleRadius(), Utils.degreeToRadian(positions[point.getName()], this.getAscendantShift()))
@@ -396,7 +404,7 @@ class RadixChart extends Chart {
                 const rulerLine = SVGUtils.SVGLine(pointPosition.x, pointPosition.y, rulerLineEndPosition.x, rulerLineEndPosition.y)
                 rulerLine.setAttribute("stroke", this.#settings.CHART_LINE_COLOR);
                 rulerLine.setAttribute("stroke-width", this.#settings.CHART_STROKE);
-                wrapper.appendChild(rulerLine);
+                pointGroup.appendChild(rulerLine);
             }
 
             /**
@@ -420,7 +428,7 @@ class RadixChart extends Chart {
 
             pointerLine.setAttribute("stroke-width", this.#settings.CHART_STROKE / 2);
 
-            wrapper.appendChild(pointerLine);
+            pointGroup.appendChild(pointerLine);
 
             /**
              * Symnol of the celestial body + points
@@ -432,7 +440,9 @@ class RadixChart extends Chart {
             symbol.setAttribute("dominant-baseline", "middle")
             symbol.setAttribute("font-size", this.#settings.RADIX_POINTS_FONT_SIZE)
             symbol.setAttribute("fill", this.#settings.PLANET_COLORS[pointData.name] ?? this.#settings.CHART_POINTS_COLOR)
-            wrapper.appendChild(symbol);
+            pointGroup.appendChild(symbol);
+
+            wrapper.appendChild(pointGroup);
         }
 
         this.#root.appendChild(wrapper)
@@ -453,6 +463,7 @@ class RadixChart extends Chart {
         })
 
         const wrapper = SVGUtils.SVGGroup()
+        wrapper.classList.add('c-radix-cusps')
 
         const textRadius = this.getCenterCircleRadius() + ((this.getInnerCircleRadius() - this.getCenterCircleRadius()) / 10)
 
@@ -480,6 +491,7 @@ class RadixChart extends Chart {
             text.setAttribute("dominant-baseline", "middle")
             text.setAttribute("font-size", this.#settings.RADIX_HOUSE_FONT_SIZE)
             text.setAttribute("fill", this.#settings.CHART_HOUSE_NUMBER_COLOR)
+            text.classList.add('c-radix-cusps__house-number')
             wrapper.appendChild(text)
 
             if (this.#settings.DRAW_HOUSE_DEGREE) {
@@ -527,17 +539,22 @@ class RadixChart extends Chart {
         ]
 
         const wrapper = SVGUtils.SVGGroup()
+        wrapper.classList.add('c-radix-axis')
 
         const rad1 = this.#numberOfLevels === 24 ? this.getRadius() : this.getInnerCircleRadius();
         const rad2 = this.#numberOfLevels === 24 ? this.getRadius() + AXIS_LENGTH : this.getInnerCircleRadius() + AXIS_LENGTH / 2;
 
         for (const axis of axisList) {
+            const axisGroup = SVGUtils.SVGGroup()
+            axisGroup.classList.add('c-radix-axis__axis')
+            axisGroup.classList.add('c-radix-axis__axis--' + axis.name.toLowerCase())
+
             let startPoint = Utils.positionOnCircle(this.#centerX, this.#centerY, rad1, Utils.degreeToRadian(axis.angle, this.getAscendantShift()))
             let endPoint = Utils.positionOnCircle(this.#centerX, this.#centerY, rad2, Utils.degreeToRadian(axis.angle, this.getAscendantShift()))
             let line = SVGUtils.SVGLine(startPoint.x, startPoint.y, endPoint.x, endPoint.y);
             line.setAttribute("stroke", this.#settings.CHART_MAIN_AXIS_COLOR);
             line.setAttribute("stroke-width", this.#settings.CHART_MAIN_STROKE);
-            wrapper.appendChild(line);
+            axisGroup.appendChild(line);
 
             let textPoint = Utils.positionOnCircle(this.#centerX, this.#centerY, rad2, Utils.degreeToRadian(axis.angle, this.getAscendantShift()))
             let symbol;
@@ -590,7 +607,8 @@ class RadixChart extends Chart {
                 symbol.setAttribute('class', this.#settings.CLASS_AXIS + ' ' + this.#settings.CLASS_AXIS + '--' + axis.name.toLowerCase());
             }
 
-            wrapper.appendChild(symbol);
+            axisGroup.appendChild(symbol);
+            wrapper.appendChild(axisGroup)
         }
 
         this.#root.appendChild(wrapper)
@@ -598,6 +616,7 @@ class RadixChart extends Chart {
 
     #drawBorders() {
         const wrapper = SVGUtils.SVGGroup()
+        wrapper.classList.add('c-radix-borders')
 
         const outerCircle = SVGUtils.SVGCircle(this.#centerX, this.#centerY, this.getOuterCircleRadius())
         outerCircle.setAttribute("stroke", this.#settings.CHART_CIRCLE_COLOR);

@@ -81,6 +81,7 @@ class AspectUtils {
         const centerY = settings.CHART_VIEWBOX_HEIGHT / 2
 
         const wrapper = SVGUtils.SVGGroup()
+        wrapper.classList.add('c-aspects')
 
         /**
          * Reorder aspects
@@ -88,10 +89,22 @@ class AspectUtils {
          */
         aspectsList.sort((a, b) => ((a.aspect.isMajor ?? false) === (b.aspect.isMajor ?? false)) ? 0 : (a.aspect.isMajor ?? false) ? 1 : -1)
 
+        const aspectGroups = [];
+
+        for (const asp of aspectsList) {
+            const aspectGroup = SVGUtils.SVGGroup()
+            aspectGroup.classList.add('c-aspects__aspect')
+            aspectGroup.classList.add('c-aspects__aspect--' + asp.aspect.name.toLowerCase())
+            aspectGroups.push(aspectGroup)
+        }
+
         /**
          * Draw lines first
          */
-        for (const asp of aspectsList) {
+        for (let i = 0; i < aspectsList.length; i++) {
+            const asp = aspectsList[i];
+            const aspectGroup = aspectGroups[i];
+
             // aspect as solid line
             const fromPoint = Utils.positionOnCircle(centerX, centerY, radius, Utils.degreeToRadian(asp.from.angle, ascendantShift))
             const toPoint = Utils.positionOnCircle(centerX, centerY, radius, Utils.degreeToRadian(asp.to.angle, ascendantShift))
@@ -132,14 +145,16 @@ class AspectUtils {
                 line2.setAttribute("class", settings.CLASS_SIGN_ASPECT_LINE)
             }
 
-            wrapper.appendChild(line1);
-            wrapper.appendChild(line2);
+            aspectGroup.appendChild(line1);
+            aspectGroup.appendChild(line2);
         }
 
         /**
          * Draw all aspects above lines
          */
-        for (const asp of aspectsList) {
+        for (let i = 0; i < aspectsList.length; i++) {
+            const asp = aspectsList[i];
+            const aspectGroup = aspectGroups[i];
 
             // aspect as solid line
             const fromPoint = Utils.positionOnCircle(centerX, centerY, radius, Utils.degreeToRadian(asp.from.angle, ascendantShift))
@@ -159,10 +174,11 @@ class AspectUtils {
                 symbol.setAttribute("class", settings.CLASS_SIGN_ASPECT + ' ' + settings.CLASS_SIGN_ASPECT + '--' + asp.aspect.name.toLowerCase())
             }
 
-            symbol.dataset.from = asp.from.name.toLowerCase();
-            symbol.dataset.to = asp.to.name.toLowerCase();
+            aspectGroup.dataset.from = asp.from.name.toLowerCase();
+            aspectGroup.dataset.to = asp.to.name.toLowerCase();
 
-            wrapper.appendChild(symbol);
+            aspectGroup.appendChild(symbol);
+            wrapper.appendChild(aspectGroup);
         }
 
         return wrapper

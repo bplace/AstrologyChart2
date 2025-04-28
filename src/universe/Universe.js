@@ -39,9 +39,13 @@ class Universe {
         document.getElementById(htmlElementID).appendChild(this.#SVGDocument);
 
         // chart background
+        const backgroundGroup = SVGUtils.SVGGroup()
+        backgroundGroup.classList.add('c-backgrounds')
         const circle = SVGUtils.SVGCircle(this.#settings.CHART_VIEWBOX_WIDTH / 2, this.#settings.CHART_VIEWBOX_HEIGHT / 2, this.#settings.CHART_VIEWBOX_WIDTH / 2)
         circle.setAttribute('fill', this.#settings.CHART_BACKGROUND_COLOR)
-        this.#SVGDocument.appendChild(circle)
+        circle.classList.add('c-chart-background');
+        backgroundGroup.appendChild(circle)
+        this.#SVGDocument.appendChild(backgroundGroup)
 
         // create wrapper for aspects
         this.#aspectsWrapper = SVGUtils.SVGGroup()
