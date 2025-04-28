@@ -242,7 +242,7 @@ class Point {
             dignitiesText.setAttribute("fill", this.#settings.POINT_PROPERTIES_DIGNITY_COLOR || this.#settings.POINT_PROPERTIES_COLOR);
 
             if (this.#settings.CLASS_POINT_DIGNITY) {
-                dignitiesText.setAttribute('class', this.#settings.CLASS_POINT_DIGNITY + ' ' + this.#settings.CLASS_POINT_DIGNITY + '--' + dignitiesText); // Straightforward r/d/e/f
+                dignitiesText.setAttribute('class', this.#settings.CLASS_POINT_DIGNITY + ' ' + this.#settings.CLASS_POINT_DIGNITY + '--' + dignitiesText.textContent); // Straightforward r/d/e/f
             }
 
             if (this.#settings.POINT_STROKE ?? false) {

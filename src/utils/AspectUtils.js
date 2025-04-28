@@ -108,14 +108,32 @@ class AspectUtils {
             // aspect as solid line
             const fromPoint = Utils.positionOnCircle(centerX, centerY, radius, Utils.degreeToRadian(asp.from.angle, ascendantShift))
             const toPoint = Utils.positionOnCircle(centerX, centerY, radius, Utils.degreeToRadian(asp.to.angle, ascendantShift))
+            const distance = Math.sqrt(
+                Math.pow(toPoint.x - fromPoint.x, 2) + Math.pow(toPoint.y - fromPoint.y, 2)
+            );
+
+            let spaceFactor = 2;
+
+            // console.log(distance);
+            // if(Math.abs(toPoint.x - fromPoint.x) < 150) {
+            //     spaceFactor = 2.4
+            // } else if(Math.abs(toPoint.x - fromPoint.x) > 300) {
+            //     spaceFactor = 2.15
+            // }
 
             // space for symbol (fromPoint - center)
-            const fromPointSpaceX = fromPoint.x + (toPoint.x - fromPoint.x) / 2.2
-            const fromPointSpaceY = fromPoint.y + (toPoint.y - fromPoint.y) / 2.2
+            const fromPointSpaceX = fromPoint.x + (toPoint.x - fromPoint.x) / spaceFactor
+            const fromPointSpaceY = fromPoint.y + (toPoint.y - fromPoint.y) / spaceFactor
 
             // space for symbol (center - toPoint)
-            const toPointSpaceX = toPoint.x + (fromPoint.x - toPoint.x) / 2.2
-            const toPointSpaceY = toPoint.y + (fromPoint.y - toPoint.y) / 2.2
+            const toPointSpaceX = toPoint.x + (fromPoint.x - toPoint.x) / spaceFactor
+            const toPointSpaceY = toPoint.y + (fromPoint.y - toPoint.y) / spaceFactor
+
+            const distance2 = Math.sqrt(
+                Math.pow(toPointSpaceX - toPointSpaceX, 2) + Math.pow(toPointSpaceY - fromPointSpaceY, 2)
+            );
+
+            // console.log(distance2)
 
             // line: fromPoint - center
             const line1 = SVGUtils.SVGLine(fromPoint.x, fromPoint.y, fromPointSpaceX, fromPointSpaceY)
@@ -147,6 +165,9 @@ class AspectUtils {
 
             aspectGroup.appendChild(line1);
             aspectGroup.appendChild(line2);
+            aspectGroup.dataset.distance = distance;
+            aspectGroup.dataset.distance2 = distance2;
+
         }
 
         /**

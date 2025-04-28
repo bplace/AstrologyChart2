@@ -51,10 +51,11 @@ class SVGUtils {
     static SYMBOL_TRINE = "Trine";
     static SYMBOL_SEXTILE = "Sextile";
     static SYMBOL_QUINCUNX = "Quincunx";
-    static SYMBOL_SEMISEXTILE = "Semisextile";
-    static SYMBOL_SEMISQUARE = "Semisquare";
+    static SYMBOL_SEMISEXTILE = "Semi-sextile";
+    static SYMBOL_SEMISQUARE = "Semi-square";
     static SYMBOL_OCTILE = "Octile";
     static SYMBOL_TRIOCTILE = "Trioctile";
+    static SYMBOL_SESQUISQUARE = "Sesquisquare";
     static SYMBOL_QUINTILE = "Quintile";
 
     // Astronomicon font codes
@@ -287,7 +288,7 @@ class SVGUtils {
      *
      * @return {SVGElement}
      */
-    static SVGSymbol(name, xPos, yPos, ) {
+    static SVGSymbol(name, xPos, yPos,) {
         switch (name) {
             case SVGUtils.SYMBOL_AS:
                 return asSymbol(xPos, yPos)
@@ -414,12 +415,14 @@ class SVGUtils {
                 return semisquareSymbol(xPos, yPos)
 
             case SVGUtils.SYMBOL_TRIOCTILE:
+            case SVGUtils.SYMBOL_SESQUISQUARE:
                 return trioctileSymbol(xPos, yPos)
 
             case SVGUtils.SYMBOL_QUINTILE:
                 return quintileSymbol(xPos, yPos)
 
             default:
+                console.debug('Unknown symbol: ' + name)
                 const unknownSymbol = SVGUtils.SVGCircle(xPos, yPos, 8)
                 unknownSymbol.setAttribute("stroke", "#333")
                 return unknownSymbol
