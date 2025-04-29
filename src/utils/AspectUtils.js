@@ -56,7 +56,18 @@ class AspectUtils {
             for (const toP of toPoints) {
                 for (const aspect of aspects) {
                     const orb = AspectUtils.orb(fromP.angle, toP.angle, aspect.angle)
-                    if (Math.abs(orb) <= aspect.orb) {
+                    /**
+                     * Use custom orbs if available:
+                     *
+                     * DEFAULT_ASPECTS: [
+                     *             {name: "Conjunction", angle: 0, orb: 4, orbs: {'Sun': 10}, isMajor: true},
+                     *             ...
+                     *             ]
+                     * @type {number}
+                     */
+                    let orbLimit = ((aspect.orbs?.[fromP.name] ?? aspect.orb) +  (aspect.orbs?.[toP.name] ?? aspect.orb)) / 2
+
+                    if (Math.abs(orb) <= orbLimit) {
                         aspectList.push({aspect: aspect, from: fromP, to: toP, precision: orb})
                     }
                 }
