@@ -99,6 +99,54 @@ class AspectUtils {
         }
 
         /**
+         * Split the aspect line in two, with a gape fixed in pixels
+         *
+         * @author ChatGPT
+         * @param fromPoint
+         * @param toPoint
+         * @param gap
+         * @returns {[[{x: number, y: number}, {x: number, y: number}],[{x: number, y: number},{x: number, y: number}]]}
+         */
+        const splitLineWithGap = function (fromPoint, toPoint, gap = 15) {
+            const dx = toPoint.x - fromPoint.x;
+            const dy = toPoint.y - fromPoint.y;
+
+            // Line length
+            const length = Math.sqrt(dx * dx + dy * dy);
+
+            // Midpoint
+            const midX = (fromPoint.x + toPoint.x) / 2;
+            const midY = (fromPoint.y + toPoint.y) / 2;
+
+            // Half gap along the perpendicular
+            const offset = gap / 2;
+
+            // Adjust midpoint along the line direction to get split points
+            const dirX = dx / length;
+            const dirY = dy / length;
+
+            // First segment: fromPoint to mid - offset in direction of line
+            const p1 = fromPoint;
+            const p2 = {
+                x: midX - dirX * offset,
+                y: midY - dirY * offset
+            };
+
+            // Second segment: mid + offset to toPoint
+            const p3 = {
+                x: midX + dirX * offset,
+                y: midY + dirY * offset
+            };
+            const p4 = toPoint;
+
+            return [
+                [p1, p2], // first line segment
+                [p3, p4]  // second line segment
+            ];
+        }
+
+
+        /**
          * Draw lines first
          */
         for (let i = 0; i < aspectsList.length; i++) {
@@ -112,31 +160,9 @@ class AspectUtils {
                 Math.pow(toPoint.x - fromPoint.x, 2) + Math.pow(toPoint.y - fromPoint.y, 2)
             );
 
-            let spaceFactor = 2;
+            const [splitLine1, splitLine2] = splitLineWithGap(fromPoint, toPoint, settings.ASPECTS_FONT_SIZE ?? 20);
 
-            // console.log(distance);
-            // if(Math.abs(toPoint.x - fromPoint.x) < 150) {
-            //     spaceFactor = 2.4
-            // } else if(Math.abs(toPoint.x - fromPoint.x) > 300) {
-            //     spaceFactor = 2.15
-            // }
-
-            // space for symbol (fromPoint - center)
-            const fromPointSpaceX = fromPoint.x + (toPoint.x - fromPoint.x) / spaceFactor
-            const fromPointSpaceY = fromPoint.y + (toPoint.y - fromPoint.y) / spaceFactor
-
-            // space for symbol (center - toPoint)
-            const toPointSpaceX = toPoint.x + (fromPoint.x - toPoint.x) / spaceFactor
-            const toPointSpaceY = toPoint.y + (fromPoint.y - toPoint.y) / spaceFactor
-
-            const distance2 = Math.sqrt(
-                Math.pow(toPointSpaceX - toPointSpaceX, 2) + Math.pow(toPointSpaceY - fromPointSpaceY, 2)
-            );
-
-            // console.log(distance2)
-
-            // line: fromPoint - center
-            const line1 = SVGUtils.SVGLine(fromPoint.x, fromPoint.y, fromPointSpaceX, fromPointSpaceY)
+            const line1 = SVGUtils.SVGLine(splitLine1[0].x, splitLine1[0].y, splitLine1[1].x, splitLine1[1].y)
             line1.setAttribute("stroke", settings.ASPECT_COLORS[asp.aspect.name] ?? "#333");
 
             if (settings.CHART_STROKE_MINOR_ASPECT && ! (asp.aspect.isMajor ?? false)) {
@@ -149,8 +175,7 @@ class AspectUtils {
                 line1.setAttribute("class", settings.CLASS_SIGN_ASPECT_LINE)
             }
 
-            // line: center - toPoint
-            const line2 = SVGUtils.SVGLine(toPointSpaceX, toPointSpaceY, toPoint.x, toPoint.y)
+            const line2 = SVGUtils.SVGLine(splitLine2[0].x, splitLine2[0].y, splitLine2[1].x, splitLine2[1].y)
             line2.setAttribute("stroke", settings.ASPECT_COLORS[asp.aspect.name] ?? "#333");
 
             if (settings.CHART_STROKE_MINOR_ASPECT && ! (asp.aspect.isMajor ?? false)) {
@@ -165,9 +190,6 @@ class AspectUtils {
 
             aspectGroup.appendChild(line1);
             aspectGroup.appendChild(line2);
-            aspectGroup.dataset.distance = distance;
-            aspectGroup.dataset.distance2 = distance2;
-
         }
 
         /**
@@ -183,7 +205,7 @@ class AspectUtils {
 
             // draw symbol in center of aspect
             const lineCenterX = (fromPoint.x + toPoint.x) / 2
-            const lineCenterY = (fromPoint.y + toPoint.y) / 2
+            const lineCenterY = (fromPoint.y + toPoint.y) / 2 - (settings.ASPECTS_FONT_SIZE ?? 20) / 18 // nudge a bit higher Astronomicon symbol
             const symbol = SVGUtils.SVGSymbol(asp.aspect.name, lineCenterX, lineCenterY)
             symbol.setAttribute("font-family", settings.CHART_FONT_FAMILY);
             symbol.setAttribute("text-anchor", "middle") // start, middle, end

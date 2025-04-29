@@ -47,16 +47,22 @@ class SVGUtils {
 
     static SYMBOL_CONJUNCTION = "Conjunction";
     static SYMBOL_OPPOSITION = "Opposition";
-    static SYMBOL_SQUARE = "Square";
+    static SYMBOL_SQUARE = "Square"; // AKA Quartile or Quadrate
     static SYMBOL_TRINE = "Trine";
     static SYMBOL_SEXTILE = "Sextile";
+
     static SYMBOL_QUINCUNX = "Quincunx";
     static SYMBOL_SEMISEXTILE = "Semi-sextile";
-    static SYMBOL_SEMISQUARE = "Semi-square";
+
+    static SYMBOL_SEMISQUARE = "Semi-square"; // AKA Octile
     static SYMBOL_OCTILE = "Octile";
-    static SYMBOL_TRIOCTILE = "Trioctile";
-    static SYMBOL_SESQUISQUARE = "Sesquisquare";
+
+    static SYMBOL_SESQUISQUARE = "Sesquisquare"; // AKA Trioctile
+    static SYMBOL_TRIOCTILE = "Trioctile"; // Same as Sesquisquare
+
     static SYMBOL_QUINTILE = "Quintile";
+    static SYMBOL_BIQUINTILE = "Biquintile";
+    static SYMBOL_SEMIQUINTILE = "Semi-quintile"; // AKA Decile
 
     // Astronomicon font codes
     static SYMBOL_ARIES_CODE = "A";
@@ -421,6 +427,12 @@ class SVGUtils {
             case SVGUtils.SYMBOL_QUINTILE:
                 return quintileSymbol(xPos, yPos)
 
+            case SVGUtils.SYMBOL_BIQUINTILE:
+                return biquintileSymbol(xPos, yPos)
+
+            case SVGUtils.SYMBOL_SEMIQUINTILE:
+                return semiquintileSymbol(xPos, yPos)
+
             default:
                 console.debug('Unknown symbol: ' + name)
                 const unknownSymbol = SVGUtils.SVGCircle(xPos, yPos, 8)
@@ -714,6 +726,14 @@ class SVGUtils {
          */
         function quintileSymbol(xPos, yPos) {
             return SVGUtils.SVGText(xPos, yPos, SVGUtils.SYMBOL_SEMISQUARE_CODE)
+        }
+
+        function biquintileSymbol(xPos, yPos) {
+            return SVGUtils.SVGText(xPos, yPos, SVGUtils.SYMBOL_BIQUINTILE_CODE)
+        }
+
+        function semiquintileSymbol(xPos, yPos) {
+            return SVGUtils.SVGText(xPos, yPos, SVGUtils.SYMBOL_SEMIQUINTILE_CODE)
         }
 
         /*
