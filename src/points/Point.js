@@ -1,6 +1,7 @@
 import SVGUtils from '../utils/SVGUtils.js';
 import Utils from '../utils/Utils.js';
 
+// noinspection JSPotentiallyInvalidUsageOfClassThis,JSUnusedGlobalSymbols
 /**
  * @class
  * @classdesc Represents a planet or point of interest in the chart

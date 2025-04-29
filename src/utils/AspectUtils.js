@@ -65,7 +65,7 @@ class AspectUtils {
                      *             ]
                      * @type {number}
                      */
-                    let orbLimit = ((aspect.orbs?.[fromP.name] ?? aspect.orb) +  (aspect.orbs?.[toP.name] ?? aspect.orb)) / 2
+                    let orbLimit = ((aspect.orbs?.[fromP.name] ?? aspect.orb) + (aspect.orbs?.[toP.name] ?? aspect.orb)) / 2
 
                     if (Math.abs(orb) <= orbLimit) {
                         aspectList.push({aspect: aspect, from: fromP, to: toP, precision: orb})
@@ -167,9 +167,6 @@ class AspectUtils {
             // aspect as solid line
             const fromPoint = Utils.positionOnCircle(centerX, centerY, radius, Utils.degreeToRadian(asp.from.angle, ascendantShift))
             const toPoint = Utils.positionOnCircle(centerX, centerY, radius, Utils.degreeToRadian(asp.to.angle, ascendantShift))
-            const distance = Math.sqrt(
-                Math.pow(toPoint.x - fromPoint.x, 2) + Math.pow(toPoint.y - fromPoint.y, 2)
-            );
 
             const [splitLine1, splitLine2] = splitLineWithGap(fromPoint, toPoint, settings.ASPECTS_FONT_SIZE ?? 20);
 
@@ -218,7 +215,7 @@ class AspectUtils {
             const lineCenterX = (fromPoint.x + toPoint.x) / 2
             const lineCenterY = (fromPoint.y + toPoint.y) / 2 - (settings.ASPECTS_FONT_SIZE ?? 20) / 18 // nudge a bit higher Astronomicon symbol
             const symbol = SVGUtils.SVGSymbol(asp.aspect.name, lineCenterX, lineCenterY)
-            symbol.setAttribute("font-family", settings.CHART_FONT_FAMILY);
+            symbol.setAttribute("font-family", settings.CHART_FONT_FAMILY ?? "Astronomicon");
             symbol.setAttribute("text-anchor", "middle") // start, middle, end
             symbol.setAttribute("dominant-baseline", "middle")
             symbol.setAttribute("font-size", settings.ASPECTS_FONT_SIZE);

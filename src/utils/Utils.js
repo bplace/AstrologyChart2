@@ -26,8 +26,7 @@ class Utils {
     static generateUniqueId = function () {
         const randomNumber = Math.random() * 1000000;
         const timestamp = Date.now();
-        const uniqueId = `id_${randomNumber}_${timestamp}`;
-        return uniqueId;
+        return `id_${randomNumber}_${timestamp}`;
     }
 
     /**
@@ -111,7 +110,7 @@ class Utils {
         // In this algorithm the order of points is crucial.
         // At that point in the circle, where the period changes in the circle (for instance:[358,359,0,1]), the points are arranged in incorrect order.
         // As a starting point, I try to find a place where there are no points. This place I use as START_ANGLE.
-        const START_ANGLE = cellWidth * frequency.findIndex(count => count == 0)
+        const START_ANGLE = cellWidth * frequency.findIndex(count => count === 0)
 
         const _points = points.map(point => {
             return {
@@ -169,7 +168,7 @@ class Utils {
             return Math.abs(a - p) <= collisionRadius
         })
 
-        return pointInCollision === undefined ? false : true
+        return pointInCollision !== undefined
     }
 
 

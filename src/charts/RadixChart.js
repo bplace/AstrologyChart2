@@ -206,7 +206,7 @@ class RadixChart extends Chart {
             .reduce((arr, aspect) => {
 
                 let isTheSame = arr.some(elm => {
-                    return elm.from.name == aspect.to.name && elm.to.name == aspect.from.name
+                    return elm.from.name === aspect.to.name && elm.to.name === aspect.from.name
                 })
 
                 if (! isTheSame) {
@@ -215,7 +215,7 @@ class RadixChart extends Chart {
 
                 return arr
             }, [])
-            .filter(aspect => aspect.aspect.name != 'Conjunction')
+            .filter(aspect => aspect.aspect.name !== 'Conjunction')
 
         const circle = SVGUtils.SVGCircle(this.#centerX, this.#centerY, this.getCenterCircleRadius())
         circle.setAttribute('fill', this.#settings.ASPECTS_BACKGROUND_COLOR)
@@ -634,6 +634,18 @@ class RadixChart extends Chart {
         wrapper.appendChild(centerCircle)
 
         this.#root.appendChild(wrapper)
+    }
+
+    animateTo(data) {
+        return undefined;
+    }
+
+    getPoint(name) {
+        return undefined;
+    }
+
+    getPoints() {
+        return undefined;
     }
 }
 

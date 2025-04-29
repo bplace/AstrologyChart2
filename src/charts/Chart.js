@@ -1,5 +1,6 @@
 import Utils from '../utils/Utils.js';
 
+// noinspection JSUnusedGlobalSymbols
 /**
  * @class
  * @classdesc An abstract class for all type of Chart

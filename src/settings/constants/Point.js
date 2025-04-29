@@ -1,3 +1,5 @@
+// noinspection JSUnusedGlobalSymbols
+
 /*
 * Point properties - angle in sign, dignities, retrograde
 * @constant

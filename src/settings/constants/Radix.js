@@ -1,3 +1,5 @@
+// noinspection JSUnusedGlobalSymbols
+
 /*
 * Radix chart element ID
 * @constant

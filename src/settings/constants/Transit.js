@@ -1,3 +1,5 @@
+// noinspection JSUnusedGlobalSymbols
+
 /*
 * Transit chart element ID
 * @constant

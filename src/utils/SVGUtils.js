@@ -1,3 +1,4 @@
+// noinspection JSUnusedGlobalSymbols
 /**
  * @class
  * @classdesc SVG utility class
@@ -174,8 +175,7 @@ class SVGUtils {
      * @return {SVGGroupElement}
      */
     static SVGGroup() {
-        const g = document.createElementNS(SVGUtils.SVG_NAMESPACE, "g");
-        return g
+        return document.createElementNS(SVGUtils.SVG_NAMESPACE, "g")
     }
 
     /**
@@ -185,8 +185,7 @@ class SVGUtils {
      * @return {SVGGroupElement}
      */
     static SVGPath() {
-        const path = document.createElementNS(SVGUtils.SVG_NAMESPACE, "path");
-        return path
+        return document.createElementNS(SVGUtils.SVG_NAMESPACE, "path")
     }
 
     /**

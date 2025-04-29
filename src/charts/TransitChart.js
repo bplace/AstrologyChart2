@@ -131,7 +131,7 @@ class TransitChart extends Chart {
     Utils.cleanUp(aspectsWrapper.getAttribute("id"), this.#beforeCleanUpHook)
 
     const aspectsList = this.getAspects(fromPoints, toPoints, aspects)
-      .filter( aspect =>  aspect.aspect.name != 'Conjunction')
+      .filter( aspect =>  aspect.aspect.name !== 'Conjunction')
 
     const circle = SVGUtils.SVGCircle(this.#centerX, this.#centerY, this.#radix.getCenterCircleRadius())
     circle.setAttribute('fill', this.#settings.ASPECTS_BACKGROUND_COLOR)
@@ -390,6 +390,17 @@ class TransitChart extends Chart {
     return 24 * (this.getRadius() / this.#numberOfLevels)
   }
 
+  animateTo(data) {
+    return undefined;
+  }
+
+  getPoint(name) {
+    return undefined;
+  }
+
+  getPoints() {
+    return undefined;
+  }
 }
 
 export {
