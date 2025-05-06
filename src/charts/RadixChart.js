@@ -215,7 +215,7 @@ class RadixChart extends Chart {
 
                 return arr
             }, [])
-            .filter(aspect => aspect.aspect.name !== 'Conjunction')
+        // .filter(aspect => aspect.aspect.name !== 'Conjunction') // Keep them inside the SVG
 
         const circle = SVGUtils.SVGCircle(this.#centerX, this.#centerY, this.getCenterCircleRadius())
         circle.setAttribute('fill', this.#settings.ASPECTS_BACKGROUND_COLOR)

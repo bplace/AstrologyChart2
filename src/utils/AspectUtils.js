@@ -164,6 +164,11 @@ class AspectUtils {
             const asp = aspectsList[i];
             const aspectGroup = aspectGroups[i];
 
+            if (asp.aspect.name === 'Conjunction') {
+                // No lines for Conjuctions
+                continue;
+            }
+
             // aspect as solid line
             const fromPoint = Utils.positionOnCircle(centerX, centerY, radius, Utils.degreeToRadian(asp.from.angle, ascendantShift))
             const toPoint = Utils.positionOnCircle(centerX, centerY, radius, Utils.degreeToRadian(asp.to.angle, ascendantShift))

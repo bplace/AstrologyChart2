@@ -91,6 +91,7 @@ class Point {
         const wrapper = SVGUtils.SVGGroup()
 
         const symbol = SVGUtils.SVGSymbol(this.#name, xPos, yPos)
+        symbol.setAttribute('data-name', this.#name)
 
         if (this.#settings.CLASS_CELESTIAL) {
             symbol.setAttribute('class', this.#settings.CLASS_CELESTIAL + ' ' + this.#settings.CLASS_CELESTIAL + '--' + this.#name.toLowerCase());

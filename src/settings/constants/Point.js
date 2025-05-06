@@ -144,5 +144,6 @@ export const CLASS_POINT_DIGNITY = '';
 export const POINT_STROKE = false;
 export const POINT_STROKE_COLOR = '#fff';
 export const POINT_STROKE_WIDTH = 2;
+export const POINT_STROKE_LINECAP = 'butt';
 
 export const POINT_PROPERTIES_SIGN_COLOR = null;
