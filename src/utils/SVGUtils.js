@@ -179,6 +179,19 @@ class SVGUtils {
     }
 
     /**
+     * Create a SVG title element
+     *
+     * @static
+     * @param {String} title
+     * @return {SVGGroupElement}
+     */
+    static SVGTitle(title) {
+        const svgTitle = document.createElementNS(SVGUtils.SVG_NAMESPACE, "title")
+        svgTitle.appendChild(document.createTextNode(title));
+        return svgTitle;
+    }
+
+    /**
      * Create a SVG path element
      *
      * @static
@@ -745,6 +758,5 @@ class SVGUtils {
 }
 
 export {
-    SVGUtils as
-        default
+    SVGUtils as default
 }

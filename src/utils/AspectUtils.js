@@ -225,6 +225,10 @@ class AspectUtils {
                 symbol.setAttribute("class", settings.CLASS_SIGN_ASPECT + ' ' + settings.CLASS_SIGN_ASPECT + '--' + asp.aspect.name.toLowerCase())
             }
 
+            if (settings.INSERT_ELEMENT_TITLE) {
+                symbol.appendChild(SVGUtils.SVGTitle(settings.ELEMENT_TITLES.aspects[asp.aspect.name.toLowerCase()]))
+            }
+
             aspectGroup.dataset.from = asp.from.name.toLowerCase();
             aspectGroup.dataset.to = asp.to.name.toLowerCase();
 

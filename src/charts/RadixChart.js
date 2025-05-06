@@ -303,6 +303,10 @@ class RadixChart extends Chart {
                 symbol.setAttribute('stroke-width', this.#settings.SYMBOL_STROKE_WIDTH);
             }
 
+            if (this.#settings.INSERT_ELEMENT_TITLE) {
+                symbol.appendChild(SVGUtils.SVGTitle(this.#settings.ELEMENT_TITLES.signs[SYMBOL_SIGNS[symbolIndex].toLowerCase()]))
+            }
+
             return symbol
         }
 
@@ -492,6 +496,11 @@ class RadixChart extends Chart {
             text.setAttribute("font-size", this.#settings.RADIX_HOUSE_FONT_SIZE)
             text.setAttribute("fill", this.#settings.CHART_HOUSE_NUMBER_COLOR)
             text.classList.add('c-radix-cusps__house-number')
+
+            if (this.#settings.INSERT_ELEMENT_TITLE) {
+                text.appendChild(SVGUtils.SVGTitle(this.#settings.ELEMENT_TITLES.cusps[i + 1]))
+            }
+
             wrapper.appendChild(text)
 
             if (this.#settings.DRAW_HOUSE_DEGREE) {
@@ -507,6 +516,7 @@ class RadixChart extends Chart {
                 degree.setAttribute("fill", this.#settings.HOUSE_DEGREE_COLOR || this.#settings.CHART_HOUSE_NUMBER_COLOR)
                 wrapper.appendChild(degree)
             }
+
         }
 
         this.#root.appendChild(wrapper)
@@ -605,6 +615,10 @@ class RadixChart extends Chart {
 
             if (this.#settings.CLASS_AXIS) {
                 symbol.setAttribute('class', this.#settings.CLASS_AXIS + ' ' + this.#settings.CLASS_AXIS + '--' + axis.name.toLowerCase());
+            }
+
+            if (this.#settings.INSERT_ELEMENT_TITLE) {
+                symbol.appendChild(SVGUtils.SVGTitle(this.#settings.ELEMENT_TITLES.axis[axis.name]))
             }
 
             axisGroup.appendChild(symbol);

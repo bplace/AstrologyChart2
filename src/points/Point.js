@@ -128,6 +128,10 @@ class Point {
             dignities.call(this)
         }
 
+        if (this.#settings.INSERT_ELEMENT_TITLE) {
+            symbol.appendChild(SVGUtils.SVGTitle(this.#settings.ELEMENT_TITLES.points[this.#name.toLowerCase()]))
+        }
+
         return wrapper //======>
 
         /*
@@ -225,6 +229,10 @@ class Point {
                 retrogradeText.setAttribute('paint-order', 'stroke');
                 retrogradeText.setAttribute('stroke', this.#settings.POINT_STROKE_COLOR);
                 retrogradeText.setAttribute('stroke-width', this.#settings.POINT_STROKE_WIDTH);
+            }
+
+            if (this.#settings.INSERT_ELEMENT_TITLE) {
+                retrogradeText.appendChild(SVGUtils.SVGTitle(this.#settings.ELEMENT_TITLES.retrograde))
             }
 
             wrapper.appendChild(retrogradeText)
