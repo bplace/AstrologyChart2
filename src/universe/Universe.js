@@ -119,7 +119,7 @@ class Universe {
 
         if (! ('FontFace' in window)) {
             console.error("Ooops, FontFace is not a function.")
-            console.error("@see https://developer.mozilla.org/en-US/docs/Web/API/CSS_Font_Loading_API")
+            // console.error("@see https://developer.mozilla.org/en-US/docs/Web/API/CSS_Font_Loading_API")
             return
         }
 
