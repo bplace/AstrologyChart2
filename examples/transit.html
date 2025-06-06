@@ -1,35 +1,206 @@
 <!DOCTYPE html>
 <html>
-  <head>
-    <meta charset="utf-8" />
+<head>
+    <meta charset="utf-8"/>
     <title>Transit</title>
     <style>
-      #paper{
-        background-color:#eee;
-        width:800px;
-        height:800px;
-      }
+        #paper {
+            background-color: #FFF;
+            width: 800px;
+            height: 800px;
+        }
     </style>
-  </head>
-  <body>
-    <div id="paper"></div>
+</head>
+<body>
 
-    <script src="../dist/astrochart2.js"></script>
-    <script>
-      // fetch from server
-      let radixData = {
-      	"points":[{name:"Moon", angle:64}, {name:"Sun", angle:273}, {name:"Mercury", angle:194}, {name:"Venus", angle:158}, {name:"Mars", angle:304}, {name:"Jupiter", angle:229}, {name:"Saturn", angle:255, isRetrograde:true}, {name:"Uranus", angle:347}, {name:"Neptune", angle:21, isRetrograde:true}, {name:"Pluto", angle:233}, {name:"Lilith", angle:244}, {name:"Chiron", angle:339}, {name:"NNode", angle:285}],
-      	"cusps":[{angle:0}, {angle:30}, {angle:60}, {angle:90}, {angle:120}, {angle:150}, {angle:180}, {angle:210}, {angle:240}, {angle:270}, {angle:300}, {angle:330}]
-      }
 
-      let transitData = {
-      	"points":[{name:"Moon", angle:180}, {name:"Sun", angle:44}, {name:"Mercury", angle:62}, {name:"Venus", angle:30}, {name:"Mars", angle:215}, {name:"Jupiter", angle:347}, {name:"Saturn", angle:350, isRetrograde:true}, {name:"Uranus", angle:192}, {name:"Neptune", angle:23, isRetrograde:true}, {name:"Pluto", angle:274}, {name:"Lilith", angle:98}, {name:"Chiron", angle:13}, {name:"NNode", angle:220}],
-        "cusps":[{angle:10}, {angle:45}, {angle:65}, {angle:100}, {angle:125}, {angle:160}, {angle:186}, {angle:218}, {angle:250}, {angle:278}, {angle:320}, {angle:344}]
-      }
+<div id="paper"></div>
 
-      const universe = new astrology.Universe('paper')
-      const radix = universe.radix().setData( radixData )      
-      const transit = universe.transit().setData( transitData )
-    </script>
-  </body>
+<script src="../dist/astrochart2.js"></script>
+<script>
+    document.addEventListener('DOMContentLoaded', () => {
+        let data = {
+            "points": [{"name": "Sun", "angle": 41.6191, "sign": "Taurus"}, {"name": "Moon", "angle": 326.3427, "sign": "Aquarius"}, {
+                "name": "Mercury",
+                "angle": 20.9778,
+                "isRetrograde": false,
+                "sign": "Aries"
+            }, {"name": "Venus", "angle": 66.7293, "isRetrograde": false, "sign": "Gemini"}, {
+                "name": "Mars",
+                "angle": 285.5706,
+                "isRetrograde": false,
+                "sign": "Capricorn"
+            }, {"name": "Jupiter", "angle": 345.5965, "isRetrograde": false, "sign": "Pisces"}, {
+                "name": "Saturn",
+                "angle": 248.2183,
+                "isRetrograde": true,
+                "sign": "Sagittarius"
+            }, {"name": "Uranus", "angle": 261.851, "isRetrograde": true, "sign": "Sagittarius"}, {
+                "name": "Neptune",
+                "angle": 275.6475,
+                "isRetrograde": true,
+                "sign": "Capricorn"
+            }, {"name": "Pluto", "angle": 215.8101, "isRetrograde": true, "sign": "Scorpio"}, {
+                "name": "Chiron",
+                "angle": 73.0221,
+                "isRetrograde": false,
+                "sign": "Gemini"
+            }, {"name": "NNode", "angle": 29.399, "sign": "Aries"}, {"name": "SNode", "angle": 209.399, "sign": "Libra"}, {
+                "name": "Lilith",
+                "angle": 67.2073,
+                "sign": "Gemini"
+            }],
+            "cusps": [{"angle": 93.9229}, {"angle": 111.3952}, {"angle": 130.5468}, {"angle": 154.5831}, {"angle": 188.3074}, {"angle": 232.7495}, {"angle": 273.9229}, {"angle": 291.3952}, {"angle": 310.5468}, {"angle": 334.5831}, {"angle": 8.3074}, {"angle": 52.7495}]
+        }
+
+
+        let settings = {
+            RADIX_POINTS_FONT_SIZE: 28,
+            RADIX_SIGNS_FONT_SIZE: 30,
+            CHART_BACKGROUND_COLOR: '#FAFAFA', // Background of the outer circle, where are AC/MH/DS/IC
+            CHART_CIRCLE_COLOR: '#4b4b4b', // the inner/outer stroke of the circle with the signs
+            CHART_LINE_COLOR: "rgba(123,123,123,.4)", // The lines of the houses, which indicate the precise angles, the exterior angles.
+            CHART_CENTER_SIZE: 0.95,
+            CHART_TEXT_COLOR: '#7a7', // House numbers
+            CHART_MAIN_AXIS_COLOR: '#4e4d63', // The 4 main AC/MH/DS/IC axes and the AC/MH texts...
+            CHART_SIGNS_COLOR: '#FAFAFA', // The symbols of the signs
+            CHART_POINTS_COLOR: '#535175', // Symbols of celestial bodies and planets
+            CHART_ALLOW_HOUSE_OVERLAP: true,
+            POINT_PROPERTIES_COLOR: '#0030aa', // Details of each point (Angle, Dignity, Retrograde)
+            POINT_COLLISION_RADIUS: 12, // Allows you to separate +/- points (Angle, Dignity, Retrograde)
+            POINT_PROPERTIES_FONT_SIZE: 16,
+            POINT_PROPERTIES_SHOW_SIGN: true,
+            POINT_PROPERTIES_ANGLE_OFFSET: 1.6,
+            POINT_PROPERTIES_SIGN_OFFSET: 2.9,
+            POINT_PROPERTIES_RETROGRADE_OFFSET: 4,
+            POINT_PROPERTIES_DIGNITY_OFFSET: 5.7,
+            POINT_PROPERTIES_SHOW_DIGNITY: false,
+            ASPECTS_BACKGROUND_COLOR: '#e4e5f1', // Background of the inner circle, with the aspects
+            COLOR_ARIES: '#F44336',
+            COLOR_TAURUS: '#4CAF50',
+            COLOR_GEMINI: '#B0E0E6',
+            COLOR_CANCER: '#00acd4',
+            COLOR_LEO: '#F44336',
+            COLOR_VIRGO: '#4CAF50',
+            COLOR_LIBRA: '#B0E0E6',
+            COLOR_SCORPIO: '#00acd4',
+            COLOR_SAGITTARIUS: '#F44336',
+            COLOR_CAPRICORN: '#4CAF50',
+            COLOR_AQUARIUS: '#B0E0E6',
+            COLOR_PISCES: '#00acd4',
+            CHART_STROKE_WITH_COLOR: true,
+            // CHART_STROKE_ONLY: true,
+            SIGN_COLORS: {
+                0: "#F44336",
+                1: "#4CAF50",
+                2: "#B0E0E6",
+                3: "#00acd4",
+                4: "#F44336",
+                5: "#4CAF50",
+                6: "#B0E0E6",
+                7: "#00acd4",
+                8: "#F44336",
+                9: "#4CAF50",
+                10: "#B0E0E6",
+                11: "#00acd4",
+            },
+            SIGN_COLOR_CIRCLE: "#2b2b2b",
+            CLASS_CELESTIAL: 'c-radix__celestial',
+            CLASS_POINT_ANGLE: 'c-radix__point-angle',
+            CLASS_POINT_SIGN: 'c-radix__point-sign',
+            CLASS_POINT_RETROGRADE: 'c-radix__point-retrograde',
+            CLASS_POINT_DIGNITY: 'c-radix__point-dignity',
+            CLASS_SIGN: 'c-radix__sign',
+            CLASS_SIGN_SEGMENT: 'c-radix__sign-segment',
+            CLASS_AXIS: 'c-radix__axis',
+            CLASS_SIGN_ASPECT: 'c-radix__aspect',
+            CLASS_SIGN_ASPECT_LINE: 'c-radix__aspect-line',
+            PLANET_COLORS: {
+                Sun: "#f1ce1f",
+                Moon: "#9c9e9e",
+                Mercury: "#773e28",
+                Venus: "#266c38",
+                Mars: "#d95959",
+                Jupiter: "#e6892b",
+                Saturn: "#9f9f9f",
+                Uranus: "#1c91f6",
+                Neptune: "#983dc5",
+                Pluto: "#272727",
+                NNode: "#2d689e",
+                SNode: "#2d689e",
+                Chiron: "#3c3c3c",
+                Lilith: "#313142",
+            },
+            ASPECT_COLORS: {
+                Conjunction: "#f27019",
+                Opposition: "#f27019",
+                Square: "#ff9c0d",
+                Trine: "#1187c9",
+                Sextile: "#138c55",
+
+                Quincunx: "#2929a8",
+                'Semi-sextile': "#8e67ef",
+                'Semi-square': '#bb4dc1', // Semisquare = Octile
+                Quintile: "#ea9b01",
+                Sesquisquare: "#ed00c0",
+            },
+            PLANET_LINE_USE_PLANET_COLOR: true,
+            CHART_STROKE: 2,
+            CHART_STROKE_MINOR_ASPECT: 1,
+            DRAW_RULER_MARK: false,
+            POINT_PROPERTIES_ANGLE_SIZE: 16,
+            ANGLE_TEMPLATE: "${angle}^",
+            POINT_PROPERTIES_ANGLE_COLOR: "#2a2a4e",
+            POINT_PROPERTIES_RETROGRADE_COLOR: "#999",
+            POINT_PROPERTIES_DIGNITY_COLOR: "#999",
+            DEFAULT_ASPECTS: [
+                {name: "Conjunction", angle: 0, orb: 4, orbs: {'Sun': 10}, isMajor: true},
+                {name: "Opposition", angle: 180, orb: 4, isMajor: true},
+                {name: "Trine", angle: 120, orb: 2, isMajor: true},
+                {name: "Square", angle: 90, orb: 2, isMajor: true},
+                {name: "Sextile", angle: 60, orb: 2, isMajor: true},
+
+                {name: "Quincunx", angle: 150, orb: 1},
+                {name: "Semi-square", angle: 45, orb: 1},
+                {name: "Semi-sextile", angle: 30, orb: 1},
+                {name: "Sesquisquare", angle: 135, orb: 1},
+
+                {name: "Quintile", angle: 72, orb: 1},
+                {name: "Biquintile", angle: 144, orb: 1},
+                {name: "Semi-quintile", angle: 36, orb: 1},
+            ],
+            AXIS_FONT_FAMILY: 'Barlow Condensed',
+            AXIS_FONT_WEIGHT: 400,
+            RADIX_AXIS_FONT_SIZE: 20,
+            SYMBOL_AS_CODE: "Asc",
+            SYMBOL_DS_CODE: "Dsc",
+            SYMBOL_MC_CODE: "MC",
+            SYMBOL_IC_CODE: "FC",
+            POINT_STROKE: true,
+            // FONT_ASTRONOMICON_LOAD: false
+            ASPECTS_FONT_SIZE: 24,
+        };
+
+        // let transitData = {
+        // 	"points":[{name:"Moon", angle:180}, {name:"Sun", angle:44}, {name:"Mercury", angle:62}, {name:"Venus", angle:30}, {name:"Mars", angle:215}, {name:"Jupiter", angle:347}, {name:"Saturn", angle:350, isRetrograde:true}, {name:"Uranus", angle:192}, {name:"Neptune", angle:23, isRetrograde:true}, {name:"Pluto", angle:274}, {name:"Lilith", angle:98}, {name:"Chiron", angle:13}, {name:"NNode", angle:220}],
+        //   "cusps":[{angle:10}, {angle:45}, {angle:65}, {angle:100}, {angle:125}, {angle:160}, {angle:186}, {angle:218}, {angle:250}, {angle:278}, {angle:320}, {angle:344}]
+        // }
+
+        const transitData = JSON.parse(document.querySelector('#transit-data').value);
+        const universe = new astrology.Universe('paper', settings)
+        const radix = universe.radix().setData(data)
+        const transit = universe.transit().setData(transitData)
+    })
+
+
+</script>
+
+
+
+
+
+<input type="hidden" id="transit-data"
+       value="{&quot;points&quot;:[{&quot;name&quot;:&quot;Sun&quot;,&quot;angle&quot;:76.071600000000004,&quot;sign&quot;:&quot;Gemini&quot;},{&quot;name&quot;:&quot;Moon&quot;,&quot;angle&quot;:203.32839999999999,&quot;sign&quot;:&quot;Libra&quot;},{&quot;name&quot;:&quot;Mercury&quot;,&quot;angle&quot;:84.992000000000004,&quot;isRetrograde&quot;:false,&quot;sign&quot;:&quot;Gemini&quot;},{&quot;name&quot;:&quot;Venus&quot;,&quot;angle&quot;:30.3353,&quot;isRetrograde&quot;:false,&quot;sign&quot;:&quot;Taurus&quot;},{&quot;name&quot;:&quot;Mars&quot;,&quot;angle&quot;:144.0343,&quot;isRetrograde&quot;:false,&quot;sign&quot;:&quot;Leo&quot;},{&quot;name&quot;:&quot;Jupiter&quot;,&quot;angle&quot;:89.243799999999993,&quot;isRetrograde&quot;:false,&quot;sign&quot;:&quot;Gemini&quot;},{&quot;name&quot;:&quot;Saturn&quot;,&quot;angle&quot;:0.83169999999999999,&quot;isRetrograde&quot;:false,&quot;sign&quot;:&quot;Aries&quot;},{&quot;name&quot;:&quot;Uranus&quot;,&quot;angle&quot;:58.422899999999998,&quot;isRetrograde&quot;:false,&quot;sign&quot;:&quot;Taurus&quot;},{&quot;name&quot;:&quot;Neptune&quot;,&quot;angle&quot;:1.9572000000000001,&quot;isRetrograde&quot;:false,&quot;sign&quot;:&quot;Aries&quot;},{&quot;name&quot;:&quot;Pluto&quot;,&quot;angle&quot;:303.57830000000001,&quot;isRetrograde&quot;:true,&quot;sign&quot;:&quot;Aquarius&quot;},{&quot;name&quot;:&quot;Chiron&quot;,&quot;angle&quot;:26.046099999999999,&quot;isRetrograde&quot;:false,&quot;sign&quot;:&quot;Aries&quot;},{&quot;name&quot;:&quot;NNode&quot;,&quot;angle&quot;:353.20830000000001,&quot;sign&quot;:&quot;Pisces&quot;},{&quot;name&quot;:&quot;SNode&quot;,&quot;angle&quot;:173.20830000000001,&quot;sign&quot;:&quot;Virgo&quot;},{&quot;name&quot;:&quot;Lilith&quot;,&quot;angle&quot;:218.07239999999999,&quot;sign&quot;:&quot;Scorpio&quot;}],&quot;cusps&quot;:[{&quot;angle&quot;:177.13079999999999},{&quot;angle&quot;:201.64060000000001},{&quot;angle&quot;:231.75239999999999},{&quot;angle&quot;:266.45229999999998},{&quot;angle&quot;:301.37200000000001},{&quot;angle&quot;:332.00740000000002},{&quot;angle&quot;:357.13080000000002},{&quot;angle&quot;:21.640599999999999},{&quot;angle&quot;:51.752400000000002},{&quot;angle&quot;:86.452299999999994},{&quot;angle&quot;:121.372},{&quot;angle&quot;:152.00739999999999}],&quot;ascendant&quot;:{&quot;key&quot;:&quot;ascendant&quot;,&quot;label&quot;:&quot;Ascendant&quot;,&quot;Sign&quot;:{&quot;key&quot;:&quot;virgo&quot;,&quot;zodiac&quot;:&quot;tropical&quot;,&quot;label&quot;:&quot;Virgo&quot;,&quot;startDate&quot;:{&quot;tropical&quot;:&quot;0000-08-24T00:00:00.000Z&quot;,&quot;sidereal&quot;:&quot;0000-09-17T00:00:00.000Z&quot;,&quot;astronomical&quot;:&quot;0000-09-17T00:00:00.000Z&quot;},&quot;endDate&quot;:{&quot;tropical&quot;:&quot;0000-09-22T23:59:59.999Z&quot;,&quot;sidereal&quot;:&quot;0000-10-17T23:59:59.999Z&quot;,&quot;astronomical&quot;:&quot;0000-10-31T23:59:59.999Z&quot;},&quot;zodiacStart&quot;:150,&quot;zodiacEnd&quot;:180},&quot;ChartPosition&quot;:{&quot;Horizon&quot;:{&quot;DecimalDegrees&quot;:0,&quot;ArcDegrees&quot;:{&quot;degrees&quot;:0,&quot;minutes&quot;:0,&quot;seconds&quot;:0},&quot;ArcDegreesFormatted&quot;:&quot;0\u00b0 0&#039; 0&#039;&#039;&quot;,&quot;ArcDegreesFormatted30&quot;:&quot;0\u00b0 0&#039; 0&#039;&#039;&quot;},&quot;Ecliptic&quot;:{&quot;DecimalDegrees&quot;:177.13079999999999,&quot;ArcDegrees&quot;:{&quot;degrees&quot;:177,&quot;minutes&quot;:7,&quot;seconds&quot;:51},&quot;ArcDegreesFormatted&quot;:&quot;177\u00b0 7&#039; 51&#039;&#039;&quot;,&quot;ArcDegreesFormatted30&quot;:&quot;27\u00b0 7&#039; 51&#039;&#039;&quot;}},&quot;House&quot;:{&quot;_language&quot;:&quot;en&quot;,&quot;id&quot;:1,&quot;label&quot;:&quot;First&quot;,&quot;ChartPosition&quot;:{&quot;StartPosition&quot;:{&quot;Horizon&quot;:{&quot;DecimalDegrees&quot;:0,&quot;ArcDegrees&quot;:{&quot;degrees&quot;:0,&quot;minutes&quot;:0,&quot;seconds&quot;:0},&quot;ArcDegreesFormatted&quot;:&quot;0\u00b0 0&#039; 0&#039;&#039;&quot;,&quot;ArcDegreesFormatted30&quot;:&quot;0\u00b0 0&#039; 0&#039;&#039;&quot;},&quot;Ecliptic&quot;:{&quot;DecimalDegrees&quot;:177.13079999999999,&quot;ArcDegrees&quot;:{&quot;degrees&quot;:177,&quot;minutes&quot;:7,&quot;seconds&quot;:51},&quot;ArcDegreesFormatted&quot;:&quot;177\u00b0 7&#039; 51&#039;&#039;&quot;,&quot;ArcDegreesFormatted30&quot;:&quot;27\u00b0 7&#039; 51&#039;&#039;&quot;}},&quot;EndPosition&quot;:{&quot;Horizon&quot;:{&quot;DecimalDegrees&quot;:335.49020000000002,&quot;ArcDegrees&quot;:{&quot;degrees&quot;:335,&quot;minutes&quot;:29,&quot;seconds&quot;:25},&quot;ArcDegreesFormatted&quot;:&quot;335\u00b0 29&#039; 25&#039;&#039;&quot;,&quot;ArcDegreesFormatted30&quot;:&quot;5\u00b0 29&#039; 25&#039;&#039;&quot;},&quot;Ecliptic&quot;:{&quot;DecimalDegrees&quot;:201.64060000000001,&quot;ArcDegrees&quot;:{&quot;degrees&quot;:201,&quot;minutes&quot;:38,&quot;seconds&quot;:26},&quot;ArcDegreesFormatted&quot;:&quot;201\u00b0 38&#039; 26&#039;&#039;&quot;,&quot;ArcDegreesFormatted30&quot;:&quot;21\u00b0 38&#039; 26&#039;&#039;&quot;}}},&quot;Sign&quot;:{&quot;key&quot;:&quot;virgo&quot;,&quot;zodiac&quot;:&quot;tropical&quot;,&quot;label&quot;:&quot;Virgo&quot;,&quot;startDate&quot;:{&quot;tropical&quot;:&quot;0000-08-24T00:00:00.000Z&quot;,&quot;sidereal&quot;:&quot;0000-09-17T00:00:00.000Z&quot;,&quot;astronomical&quot;:&quot;0000-09-17T00:00:00.000Z&quot;},&quot;endDate&quot;:{&quot;tropical&quot;:&quot;0000-09-22T23:59:59.999Z&quot;,&quot;sidereal&quot;:&quot;0000-10-17T23:59:59.999Z&quot;,&quot;astronomical&quot;:&quot;0000-10-31T23:59:59.999Z&quot;},&quot;zodiacStart&quot;:150,&quot;zodiacEnd&quot;:180}}},&quot;sun&quot;:{&quot;key&quot;:&quot;sun&quot;,&quot;label&quot;:&quot;Sun&quot;,&quot;Sign&quot;:{&quot;key&quot;:&quot;gemini&quot;,&quot;zodiac&quot;:&quot;tropical&quot;,&quot;label&quot;:&quot;Gemini&quot;,&quot;startDate&quot;:{&quot;tropical&quot;:&quot;0000-05-21T00:00:00.000Z&quot;,&quot;sidereal&quot;:&quot;0000-06-16T00:00:00.000Z&quot;,&quot;astronomical&quot;:&quot;0000-06-22T00:00:00.000Z&quot;},&quot;endDate&quot;:{&quot;tropical&quot;:&quot;0000-06-21T23:59:59.999Z&quot;,&quot;sidereal&quot;:&quot;0000-07-16T23:59:59.999Z&quot;,&quot;astronomical&quot;:&quot;0000-07-20T23:59:59.999Z&quot;},&quot;zodiacStart&quot;:60,&quot;zodiacEnd&quot;:90},&quot;ChartPosition&quot;:{&quot;Horizon&quot;:{&quot;DecimalDegrees&quot;:101.0592,&quot;ArcDegrees&quot;:{&quot;degrees&quot;:101,&quot;minutes&quot;:3,&quot;seconds&quot;:33},&quot;ArcDegreesFormatted&quot;:&quot;101\u00b0 3&#039; 33&#039;&#039;&quot;,&quot;ArcDegreesFormatted30&quot;:&quot;11\u00b0 3&#039; 33&#039;&#039;&quot;},&quot;Ecliptic&quot;:{&quot;DecimalDegrees&quot;:76.071600000000004,&quot;ArcDegrees&quot;:{&quot;degrees&quot;:76,&quot;minutes&quot;:4,&quot;seconds&quot;:18},&quot;ArcDegreesFormatted&quot;:&quot;76\u00b0 4&#039; 18&#039;&#039;&quot;,&quot;ArcDegreesFormatted30&quot;:&quot;16\u00b0 4&#039; 18&#039;&#039;&quot;}},&quot;House&quot;:{&quot;_language&quot;:&quot;en&quot;,&quot;id&quot;:9,&quot;label&quot;:&quot;Ninth&quot;,&quot;ChartPosition&quot;:{&quot;StartPosition&quot;:{&quot;Horizon&quot;:{&quot;DecimalDegrees&quot;:125.3784,&quot;ArcDegrees&quot;:{&quot;degrees&quot;:125,&quot;minutes&quot;:22,&quot;seconds&quot;:42},&quot;ArcDegreesFormatted&quot;:&quot;125\u00b0 22&#039; 42&#039;&#039;&quot;,&quot;ArcDegreesFormatted30&quot;:&quot;5\u00b0 22&#039; 42&#039;&#039;&quot;},&quot;Ecliptic&quot;:{&quot;DecimalDegrees&quot;:51.752400000000002,&quot;ArcDegrees&quot;:{&quot;degrees&quot;:51,&quot;minutes&quot;:45,&quot;seconds&quot;:9},&quot;ArcDegreesFormatted&quot;:&quot;51\u00b0 45&#039; 9&#039;&#039;&quot;,&quot;ArcDegreesFormatted30&quot;:&quot;21\u00b0 45&#039; 9&#039;&#039;&quot;}},&quot;EndPosition&quot;:{&quot;Horizon&quot;:{&quot;DecimalDegrees&quot;:90.6785,&quot;ArcDegrees&quot;:{&quot;degrees&quot;:90,&quot;minutes&quot;:40,&quot;seconds&quot;:43},&quot;ArcDegreesFormatted&quot;:&quot;90\u00b0 40&#039; 43&#039;&#039;&quot;,&quot;ArcDegreesFormatted30&quot;:&quot;0\u00b0 40&#039; 43&#039;&#039;&quot;},&quot;Ecliptic&quot;:{&quot;DecimalDegrees&quot;:86.452299999999994,&quot;ArcDegrees&quot;:{&quot;degrees&quot;:86,&quot;minutes&quot;:27,&quot;seconds&quot;:8},&quot;ArcDegreesFormatted&quot;:&quot;86\u00b0 27&#039; 8&#039;&#039;&quot;,&quot;ArcDegreesFormatted30&quot;:&quot;26\u00b0 27&#039; 8&#039;&#039;&quot;}}},&quot;Sign&quot;:{&quot;key&quot;:&quot;taurus&quot;,&quot;zodiac&quot;:&quot;tropical&quot;,&quot;label&quot;:&quot;Taurus&quot;,&quot;startDate&quot;:{&quot;tropical&quot;:&quot;0000-04-21T00:00:00.000Z&quot;,&quot;sidereal&quot;:&quot;0000-05-16T00:00:00.000Z&quot;,&quot;astronomical&quot;:&quot;0000-05-15T00:00:00.000Z&quot;},&quot;endDate&quot;:{&quot;tropical&quot;:&quot;0000-05-20T23:59:59.999Z&quot;,&quot;sidereal&quot;:&quot;0000-06-15T23:59:59.999Z&quot;,&quot;astronomical&quot;:&quot;0000-06-21T23:59:59.999Z&quot;},&quot;zodiacStart&quot;:30,&quot;zodiacEnd&quot;:60}}},&quot;moon&quot;:{&quot;key&quot;:&quot;moon&quot;,&quot;label&quot;:&quot;Moon&quot;,&quot;Sign&quot;:{&quot;key&quot;:&quot;libra&quot;,&quot;zodiac&quot;:&quot;tropical&quot;,&quot;label&quot;:&quot;Libra&quot;,&quot;startDate&quot;:{&quot;tropical&quot;:&quot;0000-09-23T00:00:00.000Z&quot;,&quot;sidereal&quot;:&quot;0000-10-18T00:00:00.000Z&quot;,&quot;astronomical&quot;:&quot;0000-11-01T00:00:00.000Z&quot;},&quot;endDate&quot;:{&quot;tropical&quot;:&quot;0000-10-23T23:59:59.999Z&quot;,&quot;sidereal&quot;:&quot;0000-11-16T23:59:59.999Z&quot;,&quot;astronomical&quot;:&quot;0000-11-23T23:59:59.999Z&quot;},&quot;zodiacStart&quot;:180,&quot;zodiacEnd&quot;:210},&quot;ChartPosition&quot;:{&quot;Horizon&quot;:{&quot;DecimalDegrees&quot;:333.80239999999998,&quot;ArcDegrees&quot;:{&quot;degrees&quot;:333,&quot;minutes&quot;:48,&quot;seconds&quot;:9},&quot;ArcDegreesFormatted&quot;:&quot;333\u00b0 48&#039; 9&#039;&#039;&quot;,&quot;ArcDegreesFormatted30&quot;:&quot;3\u00b0 48&#039; 9&#039;&#039;&quot;},&quot;Ecliptic&quot;:{&quot;DecimalDegrees&quot;:203.32839999999999,&quot;ArcDegrees&quot;:{&quot;degrees&quot;:203,&quot;minutes&quot;:19,&quot;seconds&quot;:42},&quot;ArcDegreesFormatted&quot;:&quot;203\u00b0 19&#039; 42&#039;&#039;&quot;,&quot;ArcDegreesFormatted30&quot;:&quot;23\u00b0 19&#039; 42&#039;&#039;&quot;}},&quot;House&quot;:{&quot;_language&quot;:&quot;en&quot;,&quot;id&quot;:2,&quot;label&quot;:&quot;Second&quot;,&quot;ChartPosition&quot;:{&quot;StartPosition&quot;:{&quot;Horizon&quot;:{&quot;DecimalDegrees&quot;:335.49020000000002,&quot;ArcDegrees&quot;:{&quot;degrees&quot;:335,&quot;minutes&quot;:29,&quot;seconds&quot;:25},&quot;ArcDegreesFormatted&quot;:&quot;335\u00b0 29&#039; 25&#039;&#039;&quot;,&quot;ArcDegreesFormatted30&quot;:&quot;5\u00b0 29&#039; 25&#039;&#039;&quot;},&quot;Ecliptic&quot;:{&quot;DecimalDegrees&quot;:201.64060000000001,&quot;ArcDegrees&quot;:{&quot;degrees&quot;:201,&quot;minutes&quot;:38,&quot;seconds&quot;:26},&quot;ArcDegreesFormatted&quot;:&quot;201\u00b0 38&#039; 26&#039;&#039;&quot;,&quot;ArcDegreesFormatted30&quot;:&quot;21\u00b0 38&#039; 26&#039;&#039;&quot;}},&quot;EndPosition&quot;:{&quot;Horizon&quot;:{&quot;DecimalDegrees&quot;:305.3784,&quot;ArcDegrees&quot;:{&quot;degrees&quot;:305,&quot;minutes&quot;:22,&quot;seconds&quot;:42},&quot;ArcDegreesFormatted&quot;:&quot;305\u00b0 22&#039; 42&#039;&#039;&quot;,&quot;ArcDegreesFormatted30&quot;:&quot;5\u00b0 22&#039; 42&#039;&#039;&quot;},&quot;Ecliptic&quot;:{&quot;DecimalDegrees&quot;:231.75239999999999,&quot;ArcDegrees&quot;:{&quot;degrees&quot;:231,&quot;minutes&quot;:45,&quot;seconds&quot;:9},&quot;ArcDegreesFormatted&quot;:&quot;231\u00b0 45&#039; 9&#039;&#039;&quot;,&quot;ArcDegreesFormatted30&quot;:&quot;21\u00b0 45&#039; 9&#039;&#039;&quot;}}},&quot;Sign&quot;:{&quot;key&quot;:&quot;libra&quot;,&quot;zodiac&quot;:&quot;tropical&quot;,&quot;label&quot;:&quot;Libra&quot;,&quot;startDate&quot;:{&quot;tropical&quot;:&quot;0000-09-23T00:00:00.000Z&quot;,&quot;sidereal&quot;:&quot;0000-10-18T00:00:00.000Z&quot;,&quot;astronomical&quot;:&quot;0000-11-01T00:00:00.000Z&quot;},&quot;endDate&quot;:{&quot;tropical&quot;:&quot;0000-10-23T23:59:59.999Z&quot;,&quot;sidereal&quot;:&quot;0000-11-16T23:59:59.999Z&quot;,&quot;astronomical&quot;:&quot;0000-11-23T23:59:59.999Z&quot;},&quot;zodiacStart&quot;:180,&quot;zodiacEnd&quot;:210}}}}"/>
+
+</body>
 </html>

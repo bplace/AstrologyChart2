@@ -29,6 +29,8 @@ class RadixChart extends Chart {
     #centerY
     #radius
 
+    #mask
+
     /*
      * @see Utils.cleanUp()
      */
@@ -51,6 +53,7 @@ class RadixChart extends Chart {
         this.#centerX = this.#settings.CHART_VIEWBOX_WIDTH / 2
         this.#centerY = this.#settings.CHART_VIEWBOX_HEIGHT / 2
         this.#radius = Math.min(this.#centerX, this.#centerY) - this.#settings.CHART_PADDING
+
         this.#root = SVGUtils.SVGGroup()
         this.#root.setAttribute("id", `${this.#settings.HTML_ELEMENT_ID}-${this.#settings.RADIX_ID}`)
         this.#universe.getSVGDocument().appendChild(this.#root);
@@ -82,8 +85,7 @@ class RadixChart extends Chart {
      */
     getData() {
         return {
-            "points": [...this.#data.points],
-            "cusps": [...this.#data.cusps]
+            "points": [...this.#data.points], "cusps": [...this.#data.cusps]
         }
     }
 
@@ -245,6 +247,12 @@ class RadixChart extends Chart {
     }
 
     #drawBackground() {
+        if (typeof this.#mask !== "undefined") {
+            // Appelé deux fois quand on est en mode Transit
+            this.#mask.querySelector('circle[fill="black"]').setAttribute('r', this.getCenterCircleRadius());
+            return;
+        }
+
         const MASK_ID = `${this.#settings.HTML_ELEMENT_ID}-${this.#settings.RADIX_ID}-background-mask-1`
 
         const wrapper = SVGUtils.SVGGroup()
@@ -258,7 +266,8 @@ class RadixChart extends Chart {
         const innerCircle = SVGUtils.SVGCircle(this.#centerX, this.#centerY, this.getCenterCircleRadius())
         innerCircle.setAttribute('fill', "black")
         mask.appendChild(innerCircle)
-        wrapper.appendChild(mask)
+        this.#mask = mask
+        wrapper.appendChild(this.#mask)
 
         const circle = SVGUtils.SVGCircle(this.#centerX, this.#centerY, this.getRadius())
         circle.setAttribute("fill", this.#settings.CHART_STROKE_ONLY ? "none" : this.#settings.PLANETS_BACKGROUND_COLOR);
@@ -415,7 +424,6 @@ class RadixChart extends Chart {
              * Line from the ruler to the celestial body
              * @type {{x, y}}
              */
-                //if (positions[point.getName()] != pointData.position) {
             const pointerLineEndPosition = Utils.positionOnCircle(this.#centerX, this.#centerX, this.getPointCircleRadius(), Utils.degreeToRadian(positions[point.getName()], this.getAscendantShift()))
 
             let pointerLine;
@@ -531,22 +539,14 @@ class RadixChart extends Chart {
         const cusps = data.cusps
 
         const axisList = [{
-            name: SVGUtils.SYMBOL_AS,
-            angle: cusps[0].angle
-        },
-            {
-                name: SVGUtils.SYMBOL_IC,
-                angle: cusps[3].angle
-            },
-            {
-                name: SVGUtils.SYMBOL_DS,
-                angle: cusps[6].angle
-            },
-            {
-                name: SVGUtils.SYMBOL_MC,
-                angle: cusps[9].angle
-            },
-        ]
+            name: SVGUtils.SYMBOL_AS, angle: cusps[0].angle
+        }, {
+            name: SVGUtils.SYMBOL_IC, angle: cusps[3].angle
+        }, {
+            name: SVGUtils.SYMBOL_DS, angle: cusps[6].angle
+        }, {
+            name: SVGUtils.SYMBOL_MC, angle: cusps[9].angle
+        },]
 
         const wrapper = SVGUtils.SVGGroup()
         wrapper.classList.add('c-radix-axis')
@@ -664,6 +664,5 @@ class RadixChart extends Chart {
 }
 
 export {
-    RadixChart as
-        default
+    RadixChart as default
 }

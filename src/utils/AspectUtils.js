@@ -106,6 +106,7 @@ class AspectUtils {
             const aspectGroup = SVGUtils.SVGGroup()
             aspectGroup.classList.add('c-aspects__aspect')
             aspectGroup.classList.add('c-aspects__aspect--' + asp.aspect.name.toLowerCase())
+            aspectGroup.dataset.precision = asp.precision
             aspectGroups.push(aspectGroup)
         }
 
