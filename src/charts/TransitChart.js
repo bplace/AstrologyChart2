@@ -55,6 +55,12 @@ class TransitChart extends Chart {
         this.#root.setAttribute("id", `${this.#settings.HTML_ELEMENT_ID}-${this.#settings.TRANSIT_ID}`)
         this.#radix.getUniverse().getSVGDocument().appendChild(this.#root);
 
+        // Top layer to put on top elements through <use>
+        // https://developer.mozilla.org/fr/docs/Web/SVG/Reference/Element/use
+        let topLayerGroup = SVGUtils.SVGGroup();
+        topLayerGroup.setAttribute('id', this.#settings.TOP_LAYER_ID ?? 'c-top-layer')
+        this.#radix.getUniverse().getSVGDocument().appendChild(topLayerGroup)
+
         return this
     }
 
